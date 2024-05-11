@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from . models import Message, GetTutor, Tutor, LessonMode, Grade, Subject, LessonStart, Syllabus,Blog, JobStatus, Gender, Citizen, University, UnderGrad, CanTutorOnline, Review, Province, Relationship, PaymentInformation
+from . models import Message, GetTutor, Tutor, LessonMode, Grade, Subject, LessonStart, Syllabus,Blog, JobStatus, Gender, Citizen, University, UnderGrad, CanTutorOnline, Review, Province, Relationship, PaymentInformation, Vehicle
 
 
 class TutorAdmin(BaseUserAdmin):
-    list_display = ('first_name', 'last_name', 'email', 'subject_tutored', 'mobile_number', 'is_active','is_approved', 'id', 'pk')
+    list_display = ('first_name', 'last_name', 'email', 'mobile_number', 'is_active','is_approved', 'id', 'pk')
     search_fields = ('first_name','last_name', 'email',)
     readonly_fields = ('date_joined','last_login',)
     ordering = ('first_name',)
@@ -13,8 +13,7 @@ class TutorAdmin(BaseUserAdmin):
 
     fieldsets = [
         (None, {"fields": ["email", "password"]}),
-        ("Personal info", {"fields": ["first_name","last_name","gender", "sa_citizen", "mobile_number", 
-                                      "subject_tutored","can_tutor_online", "street_address",'suburb','town','bio', "profile_pic", 'grades_tutored', 'syllabus_tutored', 'matric_certificate', 'id_upload' ]}),
+        ("Personal info", {"fields": ["first_name","last_name","gender", "sa_citizen", "mobile_number", "subject_tutored","can_tutor_online", "street_address",'bio', 'vehicle', "profile_pic", 'grades_tutored','undergrad_finished','highest_qualification', 'currently_degree', 'syllabus_tutored', 'matric_certificate', 'id_upload' ]}),
         ("Permissions", {"fields": ["is_admin", "is_active", "is_superuser", "is_approved", "is_staff"]}),
     ]
     add_fieldsets = (
@@ -51,5 +50,6 @@ admin.site.register(Review)
 admin.site.register(Province)
 admin.site.register(Relationship)
 admin.site.register(PaymentInformation)
+admin.site.register(Vehicle)
 
 

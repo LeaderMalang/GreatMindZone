@@ -39,8 +39,8 @@ def send_email(subject, message, recipient_list):
         return False
 
 def home(request):
-    maths_tutors = Tutor.objects.filter(subject_tutored = "Mathematics")
-    return render(request, "home.html", {'maths_tutors':maths_tutors})
+    # maths_tutors = Tutor.objects.filter(subject_tutored = "Mathematics")
+    return render(request, "home.html")
 
 def becomeatutor(request):
     return render(request, "becomeatutor.html")
@@ -152,7 +152,12 @@ def tutorapplication(request):
 
           admin_email = 'mosianets@gmail.com'
 
-          send_email("Profile Creation", f" {name}'s profile has been created successfully", [admin_email])           
+          send_email("Tutor Approval Request", f"Hello Admin,\n\n"\
+          f"{name} has submitted a request to become a tutor on the website.\n\n"\
+          "Please review their profile and approve their request.\n\n"\
+          "Thank you.\n\n"\
+          "Best regards,\n"\
+          "Your Website Team", [admin_email])           
           return redirect('home')
         context['tutor_form'] = form
     else:

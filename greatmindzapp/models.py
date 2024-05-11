@@ -21,6 +21,11 @@ class Gender(models.Model):
 
     def __str__(self):
        return self.gender
+class Vehicle(models.Model):
+    vehicle = models.CharField(max_length=10)
+
+    def __str__(self):
+       return self.vehicle
     
 class Citizen(models.Model):
     citizen = models.CharField(max_length=10)
@@ -93,8 +98,7 @@ class Relationship(models.Model):
 
 
 class TutorManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, mobile_number, subject_tutored, street_address,
-                    suburb, town, bio, profile_pic, password=None):
+    def create_user(self, email, first_name, last_name, mobile_number, subject_tutored, street_address, vehicle, bio, profile_pic, password=None):
 
         if not email:
             raise ValueError('You must provide email address')
@@ -114,7 +118,8 @@ class TutorManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, first_name=first_name, last_name=last_name, mobile_number=mobile_number, 
                           subject_tutored=subject_tutored, profile_pic=profile_pic,
-                         street_address=street_address, suburb=suburb, town=town,  bio=bio)
+                          vehicle=vehicle,
+                         street_address=street_address, bio=bio)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -122,8 +127,7 @@ class TutorManager(BaseUserManager):
     def create_superuser(self, email, first_name,last_name, mobile_number, subject_tutored, street_address,
                           suburb, town, bio, profile_pic, password=None, **extra_fields):
         user = self.create_user(email=email, first_name=first_name, last_name=last_name, mobile_number=mobile_number, 
-                                subject_tutored=subject_tutored, street_address=street_address, 
-                                suburb=suburb, town=town,bio=bio, profile_pic=profile_pic, password=password, **extra_fields )
+                                subject_tutored=subject_tutored, street_address=street_address, bio=bio, profile_pic=profile_pic, password=password, **extra_fields )
         user.is_admin = True
         user.is_superuser = True
         user.is_staff = True
@@ -141,17 +145,16 @@ class Tutor(AbstractBaseUser):
     mobile_number = models.CharField(verbose_name="mobile number", max_length=15)
     subject_tutored = models.ManyToManyField(Subject, verbose_name="subject tutored", null=True)
     can_tutor_online = models.ForeignKey(CanTutorOnline, on_delete=models.CASCADE, null=True)
+    vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, null=True)
     grades_tutored = models.ManyToManyField(Grade, verbose_name="grades tutored", null=True)
     syllabus_tutored = models.ManyToManyField(Syllabus, verbose_name="syllabus tutored", null=True)
     matric_certificate = models.FileField(verbose_name="Matric certificate", upload_to='images/', null=True)
     id_upload = models.FileField(verbose_name="ID upload", upload_to='images/', null=True)
 
     street_address = models.CharField(max_length=100)
-    suburb = models.CharField(max_length=100, blank=True)
-    town = models.CharField(max_length=100, blank=True)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
 
     bio = models.TextField(verbose_name="biography", max_length=500)
+    currently_degree = models.CharField(max_length=50, null=True)
     highest_qualification = models.CharField(max_length=50, null=True)
     undergrad_finished = models.ForeignKey(UnderGrad, on_delete=models.CASCADE, null=True)
     profile_pic = models.ImageField(null=True, blank=True, upload_to='images/')
