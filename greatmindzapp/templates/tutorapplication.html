@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-4">Become a Tutor</h1>
+      <form id="becometutor-form" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ tutor_form.first_name.errors }}
+        {{ tutor_form.first_name.label_tag }}
+        {{ tutor_form.first_name }}
+        <span id="first-name-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.last_name.errors }}
+        {{ tutor_form.last_name.label_tag }}
+        {{ tutor_form.last_name }}
+        <span id="last-name-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.email.errors }}
+        {{ tutor_form.email.label_tag }}
+        {{ tutor_form.email }}
+        <span id="email-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.gender.errors }}
+        {{ tutor_form.gender.label_tag }}
+        {{ tutor_form.gender }}
+        <span id="gender-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.age.errors }}
+        {{ tutor_form.age.label_tag }}
+        {{ tutor_form.age }}
+        <span id="age-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.sa_citizen.errors }}
+        {{ tutor_form.sa_citizen.label_tag }}
+        {{ tutor_form.sa_citizen }}
+        <span id="sa-citizen-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.id_no.errors }}
+        {{ tutor_form.id_no.label_tag }}
+        {{ tutor_form.id_no }}
+        <span id="id-no-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.mobile_number.errors }}
+        {{ tutor_form.mobile_number.label_tag }}
+        {{ tutor_form.mobile_number }}
+        <span id="mobile-number-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.subject_tutored.errors }}
+        {{ tutor_form.subject_tutored.label_tag }}
+        {{ tutor_form.subject_tutored }}
+        <span id="subject-tutored-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.can_tutor_online.errors }}
+        {{ tutor_form.can_tutor_online.label_tag }}
+        {{ tutor_form.can_tutor_online }}
+        <span id="can-tutor-online-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.street_address.errors }}
+        {{ tutor_form.street_address.label_tag }}
+        {{ tutor_form.street_address }}
+        <span id="street-address-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.suburb.errors }}
+        {{ tutor_form.suburb.label_tag }}
+        {{ tutor_form.suburb }}
+        <span id="suburb-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.town.errors }}
+        {{ tutor_form.town.label_tag }}
+        {{ tutor_form.town }}
+        <span id="town-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.province.errors }}
+        {{ tutor_form.province.label_tag }}
+        {{ tutor_form.province }}
+        <span id="province-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.undergrad_finished.errors }}
+        {{ tutor_form.undergrad_finished.label_tag }}
+        {{ tutor_form.undergrad_finished }}
+        <span id="undergrad-finished-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.highest_qualification.errors }}
+        {{ tutor_form.highest_qualification.label_tag }}
+        {{ tutor_form.highest_qualification }}
+        <span id="highest-qualification-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.bio.errors }}
+        {{ tutor_form.bio.label_tag }}
+        {{ tutor_form.bio }}
+        <span id="bio-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.profile_pic.errors }}
+        {{ tutor_form.profile_pic.label_tag }}
+        {{ tutor_form.profile_pic }}
+        <span id="profile-pic-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.matric_certificate.errors }}
+        {{ tutor_form.matric_certificate.label_tag }}
+        {{ tutor_form.matric_certificate }}
+        <span id="matric-certificate-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.id_upload.errors }}
+        {{ tutor_form.id_upload.label_tag }}
+        {{ tutor_form.id_upload }}
+        <span id="id-upload-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.grades_tutored.errors }}
+        {{ tutor_form.grades_tutored.label_tag }}
+        {{ tutor_form.grades_tutored }}
+        <span id="grades-tutored-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.syllabus_tutored.errors }}
+        {{ tutor_form.syllabus_tutored.label_tag }}
+        {{ tutor_form.syllabus_tutored }}
+        <span id="syllabus-tutored-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.password.errors }}
+        {{ tutor_form.password.label_tag }}
+        {{ tutor_form.password }}
+        <span id="password-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.captcha.errors }}
+        {{ tutor_form.captcha.label_tag }}
+        {{ tutor_form.captcha }}
+        <span id="captcha-error" class="text-danger"></span>
+        <input type="submit" value="Submit" class="btn btn-success my-3" />
+      </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        function validateAndShowError(inputId, errorId, errorMessage, validationRegex) {
+          var inputValue = $(inputId).val().trim()
+          if (!inputValue) {
+            $(errorId).text(errorMessage)
+            $(errorId).show()
+            $(inputId).addClass('is-invalid')
+          } else if (validationRegex && !validationRegex.test(inputValue)) {
+            $(errorId).text(errorMessage)
+            $(errorId).show()
+            $(inputId).addClass('is-invalid')
+          } else {
+            $(errorId).hide()
+            $(errorId).text('')
+            $(inputId).removeClass('is-invalid')
+          }
+        }
+      
+        $('#id_email, #id_gender, #id_age, #id_sa_citizen, #id_subject_tutored, #id_can_tutor_online, #id_street_address, #id_suburb, #id_town, #id_province,  #id_undergrad_finished, #id_highest_qualification, #id_bio, #id_profile_pic').on('input', function () {
+          var inputId = '#' + $(this).attr('id')
+          var errorId = '#' + $(this).attr('id') + '-error'
+          var errorMessage = $(errorId).data('error')
+          var validationRegex = $(this).data('regex')
+          validateAndShowError(inputId, errorId, errorMessage, validationRegex)
+        })
+      
+        // Validation for first name field
+        $('#id_first_name').on('keypress', function (e) {
+          var inputValue = e.key
+          if (!/^[a-zA-Z]+$/.test(inputValue)) {
+            $('#first-name-error').text('First name cannot contain numbers.')
+            $('#first-name-error').show()
+            $(this).addClass('is-invalid')
+            e.preventDefault()
+          } else {
+            $('#first-name-error').hide()
+            $('#first-name-error').text('')
+            $(this).removeClass('is-invalid')
+          }
+        })
+      
+        // Validation for last name field
+        $('#id_last_name').on('keypress', function (e) {
+          var inputValue = e.key
+          if (!/^[a-zA-Z]+$/.test(inputValue)) {
+            $('#last-name-error').text('Last name cannot contain numbers.')
+            $('#last-name-error').show()
+            $(this).addClass('is-invalid')
+            e.preventDefault()
+          } else {
+            $('#last-name-error').hide()
+            $('#last-name-error').text('')
+            $(this).removeClass('is-invalid')
+          }
+        })
+      
+        // Validation for mobile number field
+        $('#id_mobile_number').on('keypress', function (e) {
+          var inputValue = e.key
+          if (!/^[0-9+]+$/.test(inputValue)) {
+            e.preventDefault()
+            $('#mobile-number-error').text('Mobile number cannot contain alphabets.')
+            $('#mobile-number-error').show()
+            $(this).addClass('is-invalid')
+          } else {
+            $('#mobile-number-error').hide()
+            $('#mobile-number-error').text('')
+            $(this).removeClass('is-invalid')
+          }
+        })
+        $('#id_id_no').on('keypress', function (e) {
+          var inputValue = e.key
+          if (!/^[0-9+]+$/.test(inputValue)) {
+            e.preventDefault()
+            $('#id-no-error').text('ID number cannot contain alphabets.')
+            $('#id-no-error').show()
+            $(this).addClass('is-invalid')
+          } else {
+            $('#id-no-error').hide()
+            $('#id-no-error').text('')
+            $(this).removeClass('is-invalid')
+          }
+        })
+        $('#id_age').on('keypress', function (e) {
+          var inputValue = e.key
+          if (!/^[0-9]+$/.test(inputValue)) {
+            e.preventDefault()
+            $('#age-error').text('Age cannot contain alphabets or special characters.')
+            $('#age-error').show()
+            $(this).addClass('is-invalid')
+          } else {
+            $('#age-error').hide()
+            $('#age-error').text('')
+            $(this).removeClass('is-invalid')
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

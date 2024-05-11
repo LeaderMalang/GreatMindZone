@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <style>
+            .main-div {
+                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24);
+            }
+            .profile-heading{
+                margin: 40px 0px;
+                color: #0070BB;
+            }
+            .profile-line {
+                margin-bottom:25px;
+            }
+        </style>
+    </head>
+    <body>
+
+        {%if user.is_authenticated%}
+        <div class="container">
+              <h2 class="text-center mt-5" style="color:#0070BB"> Welcome to your dashboard</h2>        
+          
+
+              <!--Beginning of Offcanvas-->
+              <div class="offcanvas offcanvas-start" tabindex="-1" id="dashboardmenu" aria-labelledby="dashboardmenu">
+                    <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Dashboard Menu</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="d-grid gap-2">
+                            <a class="btn btn-lg btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
+                            <a class="btn btn-lg btn-primary" href="{% url 'available_jobs' %}">Available Jobs</a>
+                            <a class="btn btn-lg btn-primary" href="{%url 'current_applications' %}">Current Applications</a>                          
+                        </div>
+                    </div>
+              </div>
+
+              <!--End of Offcanvas-->
+
+              <!--Beginning of Profile-->
+
+              <div class=" main-div container d-flex flex-column mt-3" >
+                <div class="d-flex flex-row justify-content-around">
+                    <div id="profile">
+                        <h2 class="profile-heading">My Profile</h2>
+                        <h6>Full Name</h6>
+                        <h6 class="profile-line">{{user.first_name}} {{user.last_name}}</h6>
+                        <h6>Email Address</h6>
+                        <h6 class="profile-line">{{user.email}}</h6>
+                        <h6>Subject Tutored</h6>
+                        <h6 class="profile-line"> {{user.subject_tutored}}</h6>
+                        <h6 class="profile-line">Identity Number: {{user.id_no}}</h6>
+                        <h6 class="profile-line">Mobile Number: {{user.mobile_number}}</h6>
+                        <h6 class="profile-line">Physical Address: {{user.street_address}}, {{user.suburb}}</h6>
+                        <h6 class="profile-line">Biography: {{user.bio}}</h6>                     
+                    </div>
+                    <div id="job Information">                    
+                        <h2 style="margin:40px 0px;">Bank Information</h2>
+                        <h6>Account Holder Name</h6>
+                        <h6 class="profile-line">{{payment_information.account_holder_name}}</h6>
+                        <h6>Bank Name</h6>
+                        <h6 class="profile-line">{{payment_information.bank_name}}</h6>
+                        <h6>Account Number</h6>
+                        <h6 class="profile-line"> {{payment_information.account_number}}</h6>
+                        <h6 class="profile-line">Account Type: {{payment_information.account_type}}</h6>
+                        <h6 class="profile-line">Bank Branch: {{payment_information.bank_branch}}</h6>                   
+                    </div>
+                    <div id="job Information">                    
+                        <h2 style="margin:40px 0px;">Job Information</h2>
+                        <h6>Number of available jobs: {{number_of_jobs}}</h6>  
+                        <h3>{{valid}}</h3>                    
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <a style = "margin-left: 400px;margin-bottom: 60px;" class="btn btn-primary" data-bs-toggle="offcanvas" href="#dashboardmenu" role="button" aria-controls="dashboardmenu">
+                        Go to dashboard menu
+                    </a>                 
+                    <a style = "margin-bottom:60px;" class="btn btn-primary" href="{%url 'logout'%}">Logout</a>
+                    <a style = "margin-bottom:60px;" class="btn btn-primary" href="{% url 'update_profile' %}">Update Profile</a>
+                    <a style = "margin-bottom:60px;" class="btn btn-primary" href="{% url 'payment_info' %}">Add/Update Payment Information</a>
+                </div>
+             
+
+              </div>
+              {%endif%}  
+            </div>  
+        </div>
+       
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" ></script>
+    </body>
+

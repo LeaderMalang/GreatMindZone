@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>GreatMindz Tutors</title>
+    <meta content="Great Mindz is a leading tutoring services company that will ensure your child reaches their best" name="description" />
+    <meta content="Tutor" name="keywords" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+      :root {
+        --nav-color: #0070bb; /*Spanish Blue*/
+      }
+      
+      /*General Styles*/
+      
+      body {
+        font-family: Roboto, sans-serif;
+      }
+      
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #004170;
+      }
+      
+      .btn {
+        box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+      }
+      
+      /*Navigation Styles*/
+      
+      .nav-item {
+        transition: all 300ms ease-in-out;
+      }
+      
+      .nav-item a {
+        font-size: 1.2rem;
+        color: var(--nav-color);
+        transition: all 200ms ease-in-out;
+      }
+      .nav-link a {
+        color: var(--nav-color);
+        transition: all 200ms ease-in-out;
+      }
+      
+      .nav-link:hover {
+        color: var(--nav-color);
+      }
+      
+      .nav-item:hover {
+        transform: scale(1.15);
+        color: var(--nav-color);
+      }
+      
+      /*All tutors styling*/
+      
+      .tutor-name {
+        color: var(--nav-color);
+      }
+      
+      .tutoring-details {
+        color: #5072a7;
+      }
+      
+      .face-or-online {
+        display: flex;
+        gap: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light mb-5 d-flex align-items-center" style="height:100px" data-bs-theme="light">
+      <div class="container-fluid">
+        <a class="navbarr-brand ms-0 ms-md-5" href="{% url 'home' %}"><img style="width:170px;border-radius: 5px;" src="{% static 'images/Logo.jpg' %}" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <style>
+          @media (max-width: 768px) {
+            .navbar-collapse {
+              background: rgb(201, 201, 201);
+              padding: 30px;
+              margin-top: 10px;
+            }
+          }
+        </style>
+        <div class="collapse navbar-collapse" id="navbarColor01" style="">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active me-5" style="color:blue" href="{% url 'becomeatutor' %}">
+                Become a Tutor
+                <span class="visually-hidden">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-5" style="color:blue" href="{% url 'contact' %}">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-5" style="color:blue" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link me-5" style="color:blue" href="{% url 'alltutors' %}">Our Tutors</a>
+            </li>
+            <li class="nav-item">
+              <a class="mt-3 mt-md-0 btn btn-primary me-5 text-white" style="padding:7px 12px 7px 12px; font-weight:400" href="{% url 'getatutor' %}">Get a Tutor</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible">
+          {{ message }}
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% block content %}
+
+    {% endblock %}
+    <footer style="background-color: rgba(84, 152, 230, 1); color:white; border-radius: 10px;">
+      <div class="footer-top">
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 footer-contact">
+              <h3 style="margin-top:50px">GreatMindz Tutors</h3>
+              <ul class="list-unstyled">
+                <li>
+                  <strong>Address:</strong><br />
+                  680 Pretorious Street<br />
+                  Acardia<br />
+                  Pretoria
+                </li>
+                <li>
+                  <strong>Phone:</strong><br />
+                  079 816 1473
+                </li>
+                <li>
+                  <strong>Email:</strong><br />
+                  info@greatmindztutors.co.za
+                </li>
+                <li>
+                  <strong>Hours:</strong><br />
+                  Mon - Fri : 08:00 - 17:00<br />
+                  Sat : 09:00 - 15:00
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Useful Links</h5>
+              <ul style="list-style: none; padding-left: 0;">
+                <li class="mb-2">
+                  <a href="{% url 'home' %}" style="text-decoration: none; color:white">Home</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'about' %}" style="text-decoration: none; color:white">About us</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'contact' %}" style="text-decoration: none;color:white">Contact</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'becomeatutor' %}" style="text-decoration: none;color:white">Become a Tutor</a>
+                </li>
+                <li>
+                  <a href="{% url 'privacy_policy' %}" style="text-decoration: none;color:white">Privacy policy</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Tutors by Popular Subjects</h5>
+              <ul style="list-style: none; padding-left: 0;">
+                <li class="mb-2">
+                  <a href="{% url 'maths_tutors' %}" style="text-decoration: none; color:white">Mathematics</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'about' %}" style="text-decoration: none; color:white">Physical Sciences</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'contact' %}" style="text-decoration: none;color:white">Accounting</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'blog' %}" style="text-decoration: none;color:white">English</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'life_sciences_tutors' %}" style="text-decoration: none;color:white">Life Sciences</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'becomeatutor' %}" style="text-decoration: none;color:white">Chemistry</a>
+                </li>
+                <li>
+                  <a href="{% url 'privacy_policy' %}" style="text-decoration: none;color:white">Afrikaans</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Online Tutors by Popular Subjects</h5>
+              <ul style="list-style: none; padding-left: 0;">
+                <li class="mb-2">
+                  <a href="{% url 'home' %}" style="text-decoration: none; color:white">Mathematics</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'about' %}" style="text-decoration: none; color:white">Physical Sciences</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'contact' %}" style="text-decoration: none;color:white">Accounting</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'blog' %}" style="text-decoration: none;color:white">English</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'terms' %}" style="text-decoration: none;color:white">Life Sciences</a>
+                </li>
+                <li class="mb-2">
+                  <a href="{% url 'becomeatutor' %}" style="text-decoration: none;color:white">Chemistry</a>
+                </li>
+                <li>
+                  <a href="{% url 'privacy_policy' %}" style="text-decoration: none;color:white">Afrikaans</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container d-md-flex align-items-center py-4">
+        <div class="me-md-auto text-center text-md-start w-100">
+          <div class="copyright">Copyright &copy; 2024 GreatMindz Tutors</div>
+        </div>
+        <div class="social-links text-center text-md-right pt-3 pt-md-0 w-100 pe-3" style="text-align: right;padding-right: 12px;">
+          <a class="footer-image" href="https://twitter.com/home" target="blank"><img src="{% static 'images/twitter.png' %}" style="width: 35px;" /></a>
+          <a class="footer-image" href="https://www.facebook.com/GMZTutors" target="blank"><img src="{% static 'images/facebook.png' %}" style="width: 35px;" /></a>
+          <a class="footer-image" href="https://www.linkedin.com/company/greatmindz-tutoring/" target="blank"><img src="{% static 'images/linkedin.png' %}" style="width: 35px;" /></a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap 5.3.2 JavaScript (Bundle including Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
