@@ -1,0 +1,39 @@
+{%extends "base.html"%}
+{% load static %}
+{% block content %}
+
+
+    <div class="container">
+        <div>
+            <h3>{{tutor.first_name}}</h3>
+            <p>{{tutor.subject_tutored}} tutor in {{tutor.suburb}}, {{tutor.town}} </p>
+        </div>
+        <div>
+            <h5>Bio</h5>
+            <p>{{tutor.bio}}</p>
+        </div>
+        <div>
+            <h5>Education</h5>
+            <p>{{tutor.bio}}</p>
+        </div>  
+        <div>
+            <h5>Subjects</h5>
+            <p>{{tutor.bio}}</p>
+        </div> 
+        <div>
+            <h5>Reviews</h5>
+            {% if reviews%}
+                {% for review in reviews %}          
+                    <p>{{review.review}}</p>
+                {% endfor %}
+            {% endif %}
+        </div>  
+
+    </div>
+    
+
+    
+
+
+
+{% endblock %}

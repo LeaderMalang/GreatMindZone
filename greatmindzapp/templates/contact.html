@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+     {% if submitted %}
+     <div class="container">
+        <h6 style="color:rgba(0, 72, 106, 0.8)">Thank you for contacting us. We have received your message and we will contact you soon</h6><br>
+        <a href="{%url 'home'%}"><h6>Go back to HomePage</h6></a>
+     </div>
+     
+     {% else%}
+    <div class="container-fluid">
+        <h2 class="ms-1 text-left text-md-center ms-md-5" style="color:cadetblue; font-size: 30px;">Contact Us Today</h2>
+        <h5 class="ms-1 my-4 text-left text-md-center ms-md-5 mb-md-5" style="color:cadetblue;">Send us a message if you have any questions or any queries and we will get back to you swiftly</h5>   
+        <div class="row">
+            <div class="col-sm bg-light ms-0 ms-md-5 p-3 p-md-5" style=" border-radius: 20px;">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.fullname.errors }}
+                    {{ form.fullname.label_tag }}
+                    {{ form.fullname }}
+                    <span id="fullname-error" class="text-danger"></span>
+                    <br>
+                    {{ form.email.errors }}
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    <span id="email-error" class="text-danger"></span>
+                    <br>
+                    {{ form.contactnumber.errors }}
+                    {{ form.contactnumber.label_tag }}
+                    {{ form.contactnumber }}
+                    <span id="contactnumber-error" class="text-danger"></span>
+                    <br>
+                    {{ form.message.errors }}
+                    {{ form.message.label_tag }}
+                    {{ form.message }}
+                    <span id="message-error" class="text-danger"></span>
+                    <br>
+                    <input type="submit" value="Submit" class="btn btn-success btn-lg">
+                </form>
+            </div>    
+            <div class="col-sm text-center">
+                <div class="d-flex flex-column align-items-start ms-1 ms-md-5">
+                    <div>
+                        <h2 class="mb-3 mt-5" style="color:cadetblue">Our Contact Details</h2>
+                    </div>
+                    <div>
+                        <p style="color:cadetblue"><b>Contact Number</b>: 079 816 1473</p>
+                    </div>
+                    <div>
+                        <p style="color:cadetblue; text-align: left;"><b>Email address</b>: info@greatmindztutors.co.za</p>
+                    </div>  
+                </div>
+                          
+            </div> 
+        </div>
+        
+        {% endif%}
+   
+     </div>
+
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        function validateAndShowError(inputId, errorId, errorMessage, validationRegex) {
+          var inputValue = $(inputId).val().trim()
+          if (!inputValue) {
+            $(errorId).text(errorMessage)
+            $(errorId).show()
+            $(inputId).addClass('is-invalid')
+          } else if (validationRegex && !validationRegex.test(inputValue)) {
+            $(errorId).text(errorMessage)
+            $(errorId).show()
+            $(inputId).addClass('is-invalid')
+          } else {
+            $(errorId).hide()
+            $(errorId).text('')
+            $(inputId).removeClass('is-invalid')
+          }
+        }
+      
+        $('#id_fullname, #id_email, #id_contactnumber, #id_message').on('input', function () {
+          var inputId = '#' + $(this).attr('id')
+          var errorId = '#' + $(this).attr('id') + '-error'
+          var errorMessage = $(errorId).data('error')
+          var validationRegex = $(this).data('regex')
+          validateAndShowError(inputId, errorId, errorMessage, validationRegex)
+        })
+      
+        $('#id_fullname').on('keypress', function (e) {
+          var inputValue = e.key
+          if (!/^[a-zA-Z]+$/.test(inputValue)) {
+            $('#fullname-error').text('Name cannot contain numbers.')
+            $('#fullname-error').show()
+            $(this).addClass('is-invalid')
+            e.preventDefault()
+          } else {
+            $('#fullname-error').hide()
+            $('#fullname-error').text('')
+            $(this).removeClass('is-invalid')
+          }
+        })
+      
+        $('#id_contactnumber').on('keypress', function (e) {
+          var inputValue = e.key
+          if (!/^[0-9+]+$/.test(inputValue)) {
+            e.preventDefault()
+            $('#contactnumber-error').text('Mobile number cannot contain alphabets.')
+            $('#mobile-number-error').show()
+            $(this).addClass('is-invalid')
+          } else {
+            $('#contactnumber-error').hide()
+            $('#contactnumber-error').text('')
+            $(this).removeClass('is-invalid')
+          }
+        })
+      })
+    </script>
+
+{% endblock %}  

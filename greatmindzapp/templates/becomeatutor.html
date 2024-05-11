@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-around mb-5">
+      <div class="col-md-6">
+        <h3>Help others while making extra money</h3>
+        <h2 style="font-size: 3.5rem; color: #004170  ;">Become a Tutor with GreatMindz</h2>
+        <a class="btn btn-primary my-4" href="{% url 'tutorapplication' %}">BECOME A TUTOR</a>
+      </div>
+      <div class="col-md-6">
+        <img src="{% static 'images/becometutor image.jpg' %}" class="img-fluid rounded" alt="Become a Tutor" />
+      </div>
+    </div>
+
+    <h6 class="text-left">If you are a tutor, sign in below</h6>
+    <div class="text-left">
+      <a class="btn btn-primary mt-3" href="{% url 'login' %}">LOGIN</a>
+    </div>
+
+    <div class="mt-5 mb-5">
+      <p class="text-center text-primary" style="font-size:1.5rem">
+        We do all the hard work of finding tutoring jobs for you and handle all the administration.<br />
+        All you have to do is do what you love - Tutoring
+      </p>
+    </div>
+
+    <div class="row justify-content-center align-items-center mt-5">
+      <div class="col-md-6 mb-5">
+        <h1>Make a positive difference</h1>
+        <p class="text-center">
+          Help others improve their academic performance and make<br /> a positive meaningful difference in their lives
+        </p>
+      </div>
+      <div class="col-md-6 mb-5">
+        <img class="col-6" src="{% static 'images/graduate.png' %}" class="img-fluid" alt="Make a positive difference" />
+      </div>
+      <div class="col-md-6 mb-5">
+        <h1>Earn while you study</h1>
+        <p class="text-center">Make some extra money to help boost your budget. Make up to R200 per hour as a tutor</p>
+      </div>
+      <div class="col-md-6 mb-5">
+        <img class="col-6" src="{% static 'images/salary.png' %}" class="img-fluid" alt="Earn while you study" />
+      </div>
+      <div class="col-md-6">
+        <h1>Boost your CV</h1>
+        <p class="text-center">
+          Being a tutor involves the use of soft skills such as communication, organisation <br /> which are great skills to be added to your CV
+        </p>
+      </div>
+      <div class="col-md-6">
+        <img class="col-6" src="{% static 'images/cv.png' %}" class="img-fluid" alt="Boost your CV" />
+      </div>
+    </div>
+
+    <div class="mt-5 mb-5">
+      <h1 class="text-center mb-5">What our tutors say</h1>
+      <div class="row justify-content-around">
+        <div class="col-md-4 mt-2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Tshidiso</h5>
+              <p class="card-text">GreatMindz Tutors is a great company to be a part of. They make sure that you get all the necessary support you need as a tutor and help to make your lessons as smooth as possible.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Matthew</h5>
+              <p class="card-text">I absolutely being a tutor and making a difference and GreatMindz Tutors has helped me achieve that. It is wonderful to be a part of an organisation that cares for people and ensures that they are treated well.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mt-2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Arya</h5>
+              <p class="card-text">GreatMindz Tutors has given me a wonderful opportunity to tutor a variety of subjects. It is a great part time job as it is flexible and ideal alongside studying at university.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5 mb-5">
+      <h1 class="text-center mb-5 pb-5">Frequently Asked Questions</h1>
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">How do I become a tutor?</button></h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">To become a tutor, you just have to apply on our website and fill in the required information. You will then have to provide the necessary documentation and upon approval, you will be invited to a video interview. After being successful, you will then be on our system.</div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Who can become a tutor?</button></h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">How much money can I make as a tutor?</button></h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <h3 class="mb-4">Ready to join our awesome team?</h3>
+      <a class="btn btn-primary" href="{% url 'tutorapplication' %}">BECOME A TUTOR</a>
+    </div>
+  </div>
+{% endblock %}

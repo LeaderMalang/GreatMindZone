@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container">
+    <h1 class="mb-4">Get a tutor</h1>
+    <p class="mb-3">Fill the form below with the necessary information to kickstart your search for a perfect tutor.</p>
+    <form id="tutor-form" action="" method="POST" style="width:50%">
+      {% csrf_token %}
+      {{ form.syllabus.errors }}
+      {{ form.syllabus.label_tag }}
+      {{ form.syllabus }}
+      <span id="syllabus-error" class="text-danger"></span>
+      <br />
+      {{ form.grade.errors }}
+      {{ form.grade.label_tag }}
+      {{ form.grade }}
+      <span id="grade-error" class="text-danger"></span>
+      <br />
+      {{ form.subject.errors }}
+      {{ form.subject.label_tag }}
+      {{ form.subject }}
+      <span id="subject-error" class="text-danger"></span>
+      <br />
+      {{ form.first_name.errors }}
+      {{ form.first_name.label_tag }}
+      {{ form.first_name }}
+      <span id="first-name-error" class="text-danger"></span>
+      <br />
+      {{ form.last_name.errors }}
+      {{ form.last_name.label_tag }}
+      {{ form.last_name }}
+      <span id="last-name-error" class="text-danger"></span>
+      <br />
+      {{ form.email.errors }}
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      <span id="email-error" class="text-danger"></span>
+      <br />
+      {{ form.mobile.errors }}
+      {{ form.mobile.label_tag }}
+      {{ form.mobile }}
+      <span id="mobile-error" class="text-danger"></span>
+      <br />
+      {{ form.relationship.errors }}
+      {{ form.relationship.label_tag }}
+      {{ form.relationship }}
+      <span id="relationship-error" class="text-danger"></span>
+      <br />
+      {{ form.street_address.errors }}
+      {{ form.street_address.label_tag }}
+      {{ form.street_address }}
+      <span id="street-address-error" class="text-danger"></span>
+      <br />
+      {{ form.suburb.errors }}
+      {{ form.suburb.label_tag }}
+      {{ form.suburb }}
+      <span id="suburb-error" class="text-danger"></span>
+      <br />
+      {{ form.town.errors }}
+      {{ form.town.label_tag }}
+      {{ form.town }}
+      <span id="town-error" class="text-danger"></span>
+      <br />
+      {{ form.province.errors }}
+      {{ form.province.label_tag }}
+      {{ form.province }}
+      <span id="province-error" class="text-danger"></span>
+      <br />
+      {{ form.lesson_mode.errors }}
+      {{ form.lesson_mode.label_tag }}
+      {{ form.lesson_mode }}
+      <span id="lesson-mode-error" class="text-danger"></span>
+      <br />
+      {{ form.start.errors }}
+      {{ form.start.label_tag }}
+      {{ form.start }}
+      <span id="start-error" class="text-danger"></span>
+      <br />
+      {{ form.additional_details.errors }}
+      {{ form.additional_details.label_tag }}
+      {{ form.additional_details }}
+      <span id="additional-details-error" class="text-danger"></span>
+      <br />
+      <input type="submit" value="Submit" class="btn btn-success" />
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      function validateAndShowError(inputId, errorId, errorMessage, validationRegex) {
+        var inputValue = $(inputId).val().trim()
+        if (!inputValue) {
+          $(errorId).text(errorMessage)
+          $(errorId).show()
+          $(inputId).addClass('is-invalid')
+        } else if (validationRegex && !validationRegex.test(inputValue)) {
+          $(errorId).text(errorMessage)
+          $(errorId).show()
+          $(inputId).addClass('is-invalid')
+        } else {
+          $(errorId).hide()
+          $(errorId).text('')
+          $(inputId).removeClass('is-invalid')
+        }
+      }
+    
+      $('#id_syllabus, #id_grade, #id_subject, #id_email, #id_mobile, #id_relationship, #id_street_address, #id_suburb, #id_town, #id_province, #id_lesson_mode, #id_start, #id_additional_details').on('input', function () {
+        var inputId = '#' + $(this).attr('id')
+        var errorId = '#' + $(this).attr('id') + '-error'
+        var errorMessage = $(errorId).data('error')
+        var validationRegex = $(this).data('regex')
+        validateAndShowError(inputId, errorId, errorMessage, validationRegex)
+      })
+    
+      // Validation for first name field
+      $('#id_first_name').on('keypress', function (e) {
+        var inputValue = e.key
+        if (!/^[a-zA-Z]+$/.test(inputValue)) {
+          $('#first-name-error').text('First name cannot contain numbers.')
+          $('#first-name-error').show()
+          $(this).addClass('is-invalid')
+          e.preventDefault()
+        } else {
+          $('#first-name-error').hide()
+          $('#first-name-error').text('')
+          $(this).removeClass('is-invalid')
+        }
+      })
+    
+      // Validation for last name field
+      $('#id_last_name').on('keypress', function (e) {
+        var inputValue = e.key
+        if (!/^[a-zA-Z]+$/.test(inputValue)) {
+          $('#last-name-error').text('Last name cannot contain numbers.')
+          $('#last-name-error').show()
+          $(this).addClass('is-invalid')
+          e.preventDefault()
+        } else {
+          $('#last-name-error').hide()
+          $('#last-name-error').text('')
+          $(this).removeClass('is-invalid')
+        }
+      })
+    
+      // Validation for mobile number field
+      $('#id_mobile').on('keypress', function (e) {
+        var inputValue = e.key
+        if (!/^[0-9+]+$/.test(inputValue)) {
+          e.preventDefault()
+          $('#mobile-error').text('Mobile number cannot contain alphabets.')
+          $('#mobile-error').show()
+          $(this).addClass('is-invalid')
+        } else {
+          $('#mobile-error').hide()
+          $('#mobile-error').text('')
+          $(this).removeClass('is-invalid')
+        }
+      })
+    })
+  </script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if tutors %}
+    <h1 class="text-center">Our Tutors</h1>
+    <div class="container-fluid" style="background-color: rgb(243 244 246)">
+      {% for tutor in tutors %}
+        <div class="row w-60">
+          <div class="col bg m-4 w-50">
+            <div class="container" style="border-radius:10px; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24); background-color: white">
+              <div class="row py-5 justify-content-center">
+                <div class="col-sm ms-5">
+                  <img class="mb-2" src="{{ tutor.profile_pic.url }}" alt="..." style="border-radius:50%; width:30%; height:auto" />
+                  <div>
+                    <h4 class="tutor-name">{{ tutor.first_name }}</h4>
+                    <p class="tutoring-details">{{ tutor.subject_tutored }} tutor in {{ tutor.suburb }}, {{ tutor.town }}</p>
+
+                    <a href="{% url 'view-profile' tutor.id %}" class="btn btn-primary mb-4">View Profile</a>
+                  </div>
+                </div>
+                <div class="col-sm">
+                  <div class="face-or-online d-flex flex-column flex-md-row">
+                    <p>
+                      {% if tutor.can_tutor_online == 'yes' %}
+                        Can tutor online assomblief
+                      {% else %}
+                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                          <!-- Draw the first line -->
+                          <line x1="2" y1="2" x2="18" y2="18" style="stroke:black;stroke-width:2" />
+
+                          <!-- Draw the second line -->
+                          <line x1="18" y1="2" x2="2" y2="18" style="stroke:black;stroke-width:2" />
+                        </svg>Cannot tutor online nex nex
+                      {% endif %}
+                    </p>
+                    <p>Can tutor in person</p>
+                  </div>
+                  <h6>Bio</h6>
+                  <p>{{ tutor.bio }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div><br />
+  {% else %}
+    <h1>No tutors found</h1>
+  {% endif %}
+{% endblock %}
