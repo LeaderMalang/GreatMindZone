@@ -3,11 +3,12 @@
   <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
   </head>
   <body>
     <div class="container">
       <h1 class="mt-4">Update Profile</h1>
-      <form action="" method="post" enctype="multipart/form-data">
+      <form id="update_profile" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ tutor_form.first_name.errors }}
         {{ tutor_form.first_name.label_tag }}
@@ -39,11 +40,6 @@
         {{ tutor_form.sa_citizen }}
         <span id="sa-citizen-error" class="text-danger"></span>
         <br />
-        {{ tutor_form.id_no.errors }}
-        {{ tutor_form.id_no.label_tag }}
-        {{ tutor_form.id_no }}
-        <span id="id-no-error" class="text-danger"></span>
-        <br />
         {{ tutor_form.mobile_number.errors }}
         {{ tutor_form.mobile_number.label_tag }}
         {{ tutor_form.mobile_number }}
@@ -53,62 +49,6 @@
         {{ tutor_form.subject_tutored.label_tag }}
         {{ tutor_form.subject_tutored }}
         <span id="subject-tutored-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.can_tutor_online.errors }}
-        {{ tutor_form.can_tutor_online.label_tag }}
-        {{ tutor_form.can_tutor_online }}
-        <span id="can-tutor-online-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.street_address.errors }}
-        {{ tutor_form.street_address.label_tag }}
-        {{ tutor_form.street_address }}
-        <span id="street-address-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.suburb.errors }}
-        {{ tutor_form.suburb.label_tag }}
-        {{ tutor_form.suburb }}
-        <span id="suburb-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.town.errors }}
-        {{ tutor_form.town.label_tag }}
-        {{ tutor_form.town }}
-        <span id="town-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.province.errors }}
-        {{ tutor_form.province.label_tag }}
-        {{ tutor_form.province }}
-        <span id="province-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.undergrad_finished.errors }}
-        {{ tutor_form.undergrad_finished.label_tag }}
-        {{ tutor_form.undergrad_finished }}
-        <span id="undergrad-finished-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.highest_qualification.errors }}
-        {{ tutor_form.highest_qualification.label_tag }}
-        {{ tutor_form.highest_qualification }}
-        <span id="highest-qualification-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.bio.errors }}
-        {{ tutor_form.bio.label_tag }}
-        {{ tutor_form.bio }}
-        <span id="bio-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.profile_pic.errors }}
-        {{ tutor_form.profile_pic.label_tag }}
-        {{ tutor_form.profile_pic }}
-        <span id="profile-pic-error" class="text-danger"></span>
-        <br />
-        {{ tutor_form.matric_certificate.errors }}
-        {{ tutor_form.matric_certificate.label_tag }}
-        {{ tutor_form.matric_certificate }}
-        <span id="matric-certificate-error" class="text-danger"></span>
-        <br />
-
-        {{ tutor_form.id_upload.errors }}
-        {{ tutor_form.id_upload.label_tag }}
-        {{ tutor_form.id_upload }}
-        <span id="id-upload-error" class="text-danger"></span>
         <br />
 
         {{ tutor_form.grades_tutored.errors }}
@@ -122,6 +62,71 @@
         {{ tutor_form.syllabus_tutored }}
         <span id="syllabus-tutored-error" class="text-danger"></span>
         <br />
+
+        {{ tutor_form.can_tutor_online.errors }}
+        {{ tutor_form.can_tutor_online.label_tag }}
+        {{ tutor_form.can_tutor_online }}
+        <span id="can-tutor-online-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.vehicle.errors }}
+        {{ tutor_form.vehicle.label_tag }}
+        {{ tutor_form.vehicle }}
+        <span id="vehicle-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.street_address.errors }}
+        {{ tutor_form.street_address.label_tag }}
+        {{ tutor_form.street_address }}
+        <span id="street-address-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.undergrad_finished.errors }}
+        {{ tutor_form.undergrad_finished.label_tag }}
+        {{ tutor_form.undergrad_finished }}
+        <span id="undergrad-finished-error" class="text-danger"></span>
+        <br />
+
+        <div id="qualification-fields" style="display: none;">
+          {{ tutor_form.highest_qualification.errors }}
+          {{ tutor_form.highest_qualification.label_tag }}
+          {{ tutor_form.highest_qualification }}
+          <span id="highest-qualification-error" class="text-danger"></span>
+          <br />
+        </div>
+
+        <div id="degree-fields" style="display: none;">
+          {{ tutor_form.currently_degree.errors }}
+          {{ tutor_form.currently_degree.label_tag }}
+          {{ tutor_form.currently_degree }}
+          <span id="currently_degree-error" class="text-danger"></span>
+          <br />
+        </div>
+
+        {{ tutor_form.bio.errors }}
+        {{ tutor_form.bio.label_tag }}
+        {{ tutor_form.bio }}
+        <span id="bio-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.profile_pic.errors }}
+        {{ tutor_form.profile_pic.label_tag }}
+        {{ tutor_form.profile_pic }}
+        <span id="profile-pic-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.matric_certificate.errors }}
+        {{ tutor_form.matric_certificate.label_tag }}
+        {{ tutor_form.matric_certificate }}
+        <span id="matric-certificate-error" class="text-danger"></span>
+        <br />
+
+        {{ tutor_form.id_upload.errors }}
+        {{ tutor_form.id_upload.label_tag }}
+        {{ tutor_form.id_upload }}
+        <span id="id-upload-error" class="text-danger"></span>
+        <br />
+
         {{ tutor_form.captcha.errors }}
         {{ tutor_form.captcha.label_tag }}
         {{ tutor_form.captcha }}
@@ -150,7 +155,7 @@
           }
         }
       
-        $('#id_email, #id_gender, #id_age, #id_sa_citizen, #id_subject_tutored, #id_can_tutor_online, #id_street_address, #id_suburb, #id_town, #id_province,  #id_undergrad_finished, #id_highest_qualification, #id_bio, #id_profile_pic').on('input', function () {
+        $('#id_email, #id_gender, #id_age, #id_sa_citizen, #id_subject_tutored, #id_can_tutor_online, #id_street_address, #id_suburb, #id_town, #id_province,  #id_undergrad_finished, #id_highest_qualification, #id_bio, #id_profile_pic, #id_vehicle, #id_currently_degree').on('input', function () {
           var inputId = '#' + $(this).attr('id')
           var errorId = '#' + $(this).attr('id') + '-error'
           var errorMessage = $(errorId).data('error')
@@ -226,6 +231,36 @@
             $('#age-error').hide()
             $('#age-error').text('')
             $(this).removeClass('is-invalid')
+          }
+        })
+      
+        $('#id_undergrad_finished').change(function () {
+          if ($(this).val() == '1') {
+            document.getElementById('qualification-fields').style.display = 'none'
+            document.getElementById('degree-fields').style.display = 'block'
+            document.getElementById('id_highest_qualification').value = 'None'
+          } else if ($(this).val() == '2') {
+            document.getElementById('degree-fields').style.display = 'none'
+            document.getElementById('id_currently_degree').value = 'None'
+            document.getElementById('qualification-fields').style.display = 'block'
+          }
+        })
+      })
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      document.getElementById('update_profile').addEventListener('submit', function (event) {
+        event.preventDefault()
+      
+        Swal.fire({
+          icon: 'success',
+          title: 'Profile Updated!',
+          html: '<p>Your profile has been successfully updated.</p>' + '<p>Thank you for keeping your information up-to-date.</p>' + '<p>We appreciate your commitment to excellence!</p>',
+          confirmButtonText: 'OK'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            document.getElementById('update_profile').submit()
           }
         })
       })
