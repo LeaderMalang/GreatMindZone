@@ -28,6 +28,7 @@ urlpatterns = [
     path('view-profile/<int:id>/', views.view_profile, name='view-profile'),
     path('update-profile/', views.update_profile, name='update_profile'),
     path('current-applications', views.current_applications, name = 'current_applications'),
+    path('current-jobs', views.current_jobs, name = 'current_jobs'),
     path('dashboard', views.dashboard, name = 'dashboard'),  
 
     path('available_jobs/', views.available_jobs, name='available_jobs'),

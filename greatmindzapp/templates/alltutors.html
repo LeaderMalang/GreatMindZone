@@ -12,8 +12,13 @@
                 <div class="col-sm ms-5">
                   <img class="mb-2" src="{{ tutor.profile_pic.url }}" alt="..." style="border-radius:50%; width:30%; height:auto" />
                   <div>
-                    <h4 class="tutor-name">{{ tutor.first_name }}</h4>
-                    <p class="tutoring-details">{{ tutor.subject_tutored }} tutor in {{ tutor.suburb }}, {{ tutor.town }}</p>
+                    <h4 class="tutor-name">{{ first_name_letter }} {{ last_name_letter }}</h4>
+                    <p class="tutoring-details">
+                      tutor in {{ tutor.suburb }}, {{ tutor.town }}
+                      {% for subject in subjects.all %}
+                        <span>{{ subject }}</span>
+                      {% endfor %}
+                    </p>
 
                     <a href="{% url 'view-profile' tutor.id %}" class="btn btn-primary mb-4">View Profile</a>
                   </div>

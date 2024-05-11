@@ -8,15 +8,17 @@ from django.core.exceptions import ValidationError
 
 
 class GetTutorForm(ModelForm):
+    captcha = ReCaptchaField()
     class Meta:
         model = GetTutor
-        fields = ('syllabus', 'grade', 'subject', 'first_name', 'last_name','email',  'mobile', 'relationship', 'street_address','suburb','town', 'province', 'lesson_mode', 'start', 'additional_details',)
+        fields = ('syllabus', 'grade', 'subject', 'first_name', 'last_name','email', 'relationship_full_name',  'mobile', 'relationship', 'street_address','suburb','town', 'province', 'lesson_mode', 'start', 'additional_details',)
         widgets = {
-            'syllabus':forms.Select(attrs={'class':'form-control'}),
-            'grade': forms.Select(attrs={'class':'form-control'}),
-            'subject': forms.Select(attrs={'class':'form-control'}),
+            'syllabus':forms.SelectMultiple(attrs={'class':'form-control'}),
+            'grade': forms.SelectMultiple(attrs={'class':'form-control'}),
+            'subject': forms.SelectMultiple(attrs={'class':'form-control'}),
             'first_name': forms.TextInput(attrs={'class':'form-control'}),
             'last_name': forms.TextInput(attrs={'class':'form-control'}),
+            'relationship_full_name': forms.TextInput(attrs={'class':'form-control'}),
             'email': forms.EmailInput(attrs={'class':'form-control'}),
             'mobile': forms.TextInput(attrs={'class':'form-control'}),
             'relationship': forms.Select(attrs={'class':'form-control'}),
@@ -27,6 +29,7 @@ class GetTutorForm(ModelForm):
             'lesson_mode': forms.Select(attrs={'class':'form-control'}),
             'start': forms.Select(attrs={'class':'form-control'}),
             'additional_details': forms.Textarea(attrs={'class':'form-control'}),
+            'captcha': ReCaptchaV2Checkbox(attrs={'class':'form-control'})
             
         }
         labels = {
@@ -34,10 +37,12 @@ class GetTutorForm(ModelForm):
             'subject': 'Subject',
             'first_name': 'First Name',
             'last_name': 'Last Name',
+            'relationship_full_name': 'His/Her Name',
             'email': 'Email address',
             'mobile': 'Contact Number',
             'relationship': ' Relationship to learner',
-            'lesson_mode': 'Lesson Mode',
+            'lesson_mode': 'Mode of lessons',
+            'street_address': 'Physical Address',
             'start': 'When would you like to start?',
             'additional_details': 'Any additional details?',
             'tutor_application': 'Why would you be perfect for this job?'
@@ -334,23 +339,24 @@ class TutorUpdateForm(ModelForm):
     captcha = ReCaptchaField()
     class Meta:
         model = Tutor
-        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'grades_tutored', 'syllabus_tutored', 'street_address', 'undergrad_finished', 'highest_qualification', 'bio', 'profile_pic', 'vehicle', 'matric_certificate', 'id_upload')
+        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'grades_tutored', 'syllabus_tutored', 'street_address', 'undergrad_finished', 'highest_qualification', 'currently_degree', 'bio', 'profile_pic', 'vehicle','matric_certificate', 'id_upload')
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
             'email':'Email Address',
             'gender':'Gender',
             'age': 'Age',
+            'vehicle': 'Do you have your own vehicle to travel to lessons with?',
             'sa_citizen':'Are you a South African citizen?',
             'mobile_number':'Contact Number',
             'subject_tutored': 'Subject Tutored',
             'can_tutor_online': 'Can you tutor online?',
             'grades_tutored': 'Grades Tutored',
             'syllabus_tutored': 'Syllabus Tutored',
-            'vehicle': 'Do you have your own vehicle to travel to lessons with?',
             'street_address': 'Physical Address',
             'undergrad_finished': 'Are you still an undergraduate student?',
             'highest_qualification': 'What is your highest qualification?',
+            'currently_degree': 'Which degree are you currently pursuing?',
             'bio': 'Biography',
             'profile_pic': 'Profile Picture',
             'matric_certificate': 'Matric Certificate',
@@ -365,14 +371,15 @@ class TutorUpdateForm(ModelForm):
             'sa_citizen': forms.Select(attrs={'class':'form-control'}),
             'vehicle': forms.Select(attrs={'class':'form-control'}),
             'mobile_number':forms.TextInput(attrs={'class':'form-control'}),
-            'subject_tutored': forms.TextInput(attrs={'class':'form-control'}),
+            'subject_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'can_tutor_online': forms.Select(attrs={'class':'form-control'}),
             'grades_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'syllabus_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'street_address': forms.TextInput(attrs={'class':'form-control'}),
             'bio': forms.Textarea(attrs={'class':'form-control'}),  
             'undergrad_finished':forms.Select(attrs={'class':'form-control'}),     
-            'highest_qualification': forms.TextInput(attrs={'class':'form-control'}),
+            'highest_qualification': forms.TextInput(attrs={'class':'form-control'}),  
+            'currently_degree': forms.TextInput(attrs={'class':'form-control'}),
             'matric_certificate': forms.FileInput(attrs={'class':'form-control'}),
             'id_upload': forms.FileInput(attrs={'class':'form-control'}),
             'captcha': ReCaptchaV2Checkbox(attrs={'class':'form-control'})
@@ -407,6 +414,12 @@ class TutorUpdateForm(ModelForm):
         if not email:
             raise ValidationError("Email address cannot be blank.")
         return email
+    
+    def clean_vehicle(self):
+        vehicle = self.cleaned_data['vehicle']
+        if not vehicle:
+            raise ValidationError("vehicle address cannot be blank.")
+        return vehicle
 
     def clean_gender(self):
         gender = self.cleaned_data['gender']
@@ -419,12 +432,6 @@ class TutorUpdateForm(ModelForm):
         if not age:
             raise ValidationError("Age cannot be blank.")
         return age
-
-    def clean_vehicle(self):
-        vehicle = self.cleaned_data['vehicle']
-        if not vehicle:
-            raise ValidationError("vehicle cannot be blank.")
-        return vehicle
 
     def clean_sa_citizen(self):
         sa_citizen = self.cleaned_data['sa_citizen']
@@ -449,24 +456,6 @@ class TutorUpdateForm(ModelForm):
         if not street_address:
             raise ValidationError("Physical Address cannot be blank.")
         return street_address
-
-    def clean_suburb(self):
-        suburb = self.cleaned_data['suburb']
-        if not suburb:
-            raise ValidationError("Suburb cannot be blank.")
-        return suburb
-
-    def clean_town(self):
-        town = self.cleaned_data['town']
-        if not town:
-            raise ValidationError("Town cannot be blank.")
-        return town
-
-    def clean_province(self):
-        province = self.cleaned_data['province']
-        if not province:
-            raise ValidationError("Province cannot be blank.")
-        return province
 
     def clean_undergrad_finished(self):
         undergrad_finished = self.cleaned_data['undergrad_finished']
@@ -505,6 +494,7 @@ class TutorUpdateForm(ModelForm):
         return id_upload
 
 class LoginForm(ModelForm):
+    captcha = ReCaptchaField()
     class Meta:
         model = Tutor
         fields = ('email', 'password',)
@@ -515,6 +505,7 @@ class LoginForm(ModelForm):
         widgets = {        
         'email':forms.EmailInput(attrs={'class':'form-control'}),
         'password': forms.PasswordInput(attrs={'class':'form-control'}),
+        'captcha': ReCaptchaV2Checkbox(attrs={'class':'form-control'})
         }
         
     def clean(self):
@@ -526,6 +517,7 @@ class LoginForm(ModelForm):
                 raise forms.ValidationError("Invalid Credentials")
 
 class PaymentInformationForm(forms.ModelForm):
+    captcha = ReCaptchaField()
     class Meta:
         model = PaymentInformation
         fields = ['account_holder_name', 'bank_name', 'account_number', 'account_type', 'bank_branch']
@@ -542,6 +534,7 @@ class PaymentInformationForm(forms.ModelForm):
             'account_number': forms.TextInput(attrs={'class':'form-control'}),
             'account_type': forms.TextInput(attrs={'class':'form-control'}),
             'bank_branch': forms.TextInput(attrs={'class':'form-control'}),
+            'captcha': ReCaptchaV2Checkbox(attrs={'class':'form-control'})
         }
 
     def clean_account_holder_name(self):

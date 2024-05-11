@@ -45,31 +45,40 @@
       {{ form.relationship }}
       <span id="relationship-error" class="text-danger"></span>
       <br />
+      <div id="relationship_full_name_div" style="display: none;">
+        {{ form.relationship_full_name.errors }}
+        {{ form.relationship_full_name.label_tag }}
+        {{ form.relationship_full_name }}
+        <span id="relationship_full_name-error" class="text-danger"></span>
+        <br />
+      </div>
       {{ form.street_address.errors }}
       {{ form.street_address.label_tag }}
       {{ form.street_address }}
       <span id="street-address-error" class="text-danger"></span>
-      <br />
-      {{ form.suburb.errors }}
-      {{ form.suburb.label_tag }}
-      {{ form.suburb }}
-      <span id="suburb-error" class="text-danger"></span>
-      <br />
-      {{ form.town.errors }}
-      {{ form.town.label_tag }}
-      {{ form.town }}
-      <span id="town-error" class="text-danger"></span>
-      <br />
-      {{ form.province.errors }}
-      {{ form.province.label_tag }}
-      {{ form.province }}
-      <span id="province-error" class="text-danger"></span>
       <br />
       {{ form.lesson_mode.errors }}
       {{ form.lesson_mode.label_tag }}
       {{ form.lesson_mode }}
       <span id="lesson-mode-error" class="text-danger"></span>
       <br />
+      <div id="lesson_mode_show_div" style="display: none;">
+        {{ form.suburb.errors }}
+        {{ form.suburb.label_tag }}
+        {{ form.suburb }}
+        <span id="suburb-error" class="text-danger"></span>
+        <br />
+        {{ form.town.errors }}
+        {{ form.town.label_tag }}
+        {{ form.town }}
+        <span id="town-error" class="text-danger"></span>
+        <br />
+        {{ form.province.errors }}
+        {{ form.province.label_tag }}
+        {{ form.province }}
+        <span id="province-error" class="text-danger"></span>
+        <br />
+      </div>
       {{ form.start.errors }}
       {{ form.start.label_tag }}
       {{ form.start }}
@@ -79,6 +88,11 @@
       {{ form.additional_details.label_tag }}
       {{ form.additional_details }}
       <span id="additional-details-error" class="text-danger"></span>
+      <br />
+      {{ form.captcha.errors }}
+      {{ form.captcha.label_tag }}
+      {{ form.captcha }}
+      <span id="captcha-error" class="text-danger"></span>
       <br />
       <input type="submit" value="Submit" class="btn btn-success" />
     </form>
@@ -104,7 +118,7 @@
         }
       }
     
-      $('#id_syllabus, #id_grade, #id_subject, #id_email, #id_mobile, #id_relationship, #id_street_address, #id_suburb, #id_town, #id_province, #id_lesson_mode, #id_start, #id_additional_details').on('input', function () {
+      $('#id_syllabus, #id_grade, #id_subject, #id_email, #id_mobile, #id_relationship, #id_street_address, #id_suburb, #id_town, #id_province, #id_lesson_mode, #id_start, #id_additional_details, #id_relationship_full_name').on('input', function () {
         var inputId = '#' + $(this).attr('id')
         var errorId = '#' + $(this).attr('id') + '-error'
         var errorMessage = $(errorId).data('error')
@@ -154,6 +168,31 @@
           $('#mobile-error').hide()
           $('#mobile-error').text('')
           $(this).removeClass('is-invalid')
+        }
+      })
+    
+      $('#id_relationship').change(function () {
+        if ($(this).val() == '2') {
+          document.getElementById('relationship_full_name_div').style.display = 'block'
+          document.getElementById('id_relationship_full_name').value = ''
+        } else if ($(this).val() == '4') {
+          document.getElementById('relationship_full_name_div').style.display = 'block'
+          document.getElementById('id_relationship_full_name').value = ''
+        } else if ($(this).val() == '3') {
+          document.getElementById('relationship_full_name_div').style.display = 'none'
+          document.getElementById('id_relationship_full_name').value = 'None'
+        }
+      })
+    
+      $('#id_lesson_mode').change(function () {
+        if ($(this).val() == '1') {
+          document.getElementById('lesson_mode_show_div').style.display = 'none'
+          document.getElementById('id_suburb').value = 'None'
+          document.getElementById('id_town').value = 'None'
+        } else if ($(this).val() == '2') {
+          document.getElementById('lesson_mode_show_div').style.display = 'block'
+          document.getElementById('id_suburb').value = ''
+          document.getElementById('id_town').value = ''
         }
       })
     })

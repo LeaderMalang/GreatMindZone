@@ -94,20 +94,32 @@ def getatutor(request):
     submitted = False
     if request.method == 'POST':
         form = GetTutorForm(request.POST)
-        if form.is_valid():  # Correctly call is_valid() as a method
-            instance = form.save(commit=False)  # Save the form data to access it
+        if form.is_valid():
+            instance = form.save(commit=False)
             name = instance.first_name 
             email = instance.email
+            mobile = instance.mobile
+            physical_address = instance.street_address
 
             form.save()
 
-            send_email("Thank You for Contacting GreatMindz", "We will get back to you homie", [email])
+            send_email("Thank You for using GreatMindz", "Thank you for reaching out to us. We will get back you in no time", [email])
 
             admin_email = 'mosianets@gmail.com'
 
-            send_email("New Contact Form Submission", f"A new message has been received from {name} ({email})", [admin_email])
+            send_email("New Get Tutor Request", f"Hello Admin,\n\n"\
+                "A new tutor request has been received:\n\n"\
+                f"Name: {name}\n"\
+                f"Email: {email}\n"\
+                f"Mobile Number: {mobile}\n"\
+                f"Physical Address: {physical_address}\n\n"\
+                "Please review and respond accordingly.\n\n"\
+                "Thank you.\n\n"\
+                "Best regards,\n"\
+                "GreatMindz Team",
+                [admin_email])
             
-            messages.success(request, f'We will get back to you homie')
+            messages.success(request, f'Thank you for reaching out to us. We will get back to you in no time')
             return redirect('getatutor')
         else:
             messages.error(request)    
@@ -157,7 +169,7 @@ def tutorapplication(request):
           "Please review their profile and approve their request.\n\n"\
           "Thank you.\n\n"\
           "Best regards,\n"\
-          "Your Website Team", [admin_email])           
+          "GreatMindz Team", [admin_email])           
           return redirect('home')
         context['tutor_form'] = form
     else:
@@ -187,9 +199,13 @@ def login_view(request):
     return render(request, "login.html", context)
 
 def alltutors(request):
-    tutors = Tutor.objects.filter(is_approved=True).filter(is_active=True)   
+    tutors = Tutor.objects.filter(is_approved=True).filter(is_active=True) 
+    for tutor in tutors:
+        first_name_letter = tutor.first_name[0]
+        last_name_letter = tutor.last_name[0] 
+        subjects = tutor.subject_tutored
     online_tutors = Tutor.objects.filter(can_tutor_online='1')
-    return render(request, "alltutors.html", {'tutors': tutors, 'online_tutors':online_tutors})
+    return render(request, "alltutors.html", {'tutors': tutors, 'online_tutors':online_tutors, 'first_name_letter':first_name_letter,'last_name_letter':last_name_letter, 'subjects':subjects})
 
 
 def logout_view(request):
@@ -223,11 +239,23 @@ def payment_info(request):
             payment_info.tutor = tutor
             payment_info.save()
 
-            send_email("Payment Information Updated", "Your payment information has been successfully updated.", [request.user.email])
+            send_email("Payment Information Updated", f"Hello {request.user.first_name},\n\n"\
+           "We're happy to inform you that your payment information has been successfully updated.\n"\
+           "Thank you for keeping your details current.\n"\
+           "Please send an email to notify the GreatMindz team.\n\n"\
+           "Best regards,\n"\
+           "GreatMindz Team",
+           [request.user.email])
 
             admin_email = 'mosianets@gmail.com'
 
-            send_email("Payment Information Updated", f"The payment information for tutor {request.user.first_name} {request.user.last_name} has been updated.", [admin_email])
+            send_email("Payment Information Updated", f"Hello Admin,\n\n"\
+           f"The payment information for tutor {request.user.first_name} {request.user.last_name} has been updated.\n"\
+           "Please review the changes and ensure all information is accurate.\n\n"\
+           "Best regards,\n"\
+           "GreatMindz Team",
+           [admin_email])
+            
 
             return redirect('dashboard')
     
@@ -286,11 +314,21 @@ def update_profile(request):
           name = instance.first_name
           email = instance.email
 
-          send_email("Profile Updation", "Your profile has been updated successfully", [email])
+          send_email("Profile Update Confirmation", f"Hello {name},\n\n"\
+           "We are delighted to inform you that your profile on GreatMindz has been successfully updated.\n"\
+           "Thank you for keeping your information current.\n\n"\
+           "Best regards,\n"\
+           "GreatMindz Team",
+           [email])
 
           admin_email = 'mosianets@gmail.com'
 
-          send_email("Profile Updation", f" {name}'s profile has been updated successfully", [admin_email])
+          send_email("New Profile Update", f"Hello Admin,\n\n"\
+           f"A profile update has been made for {name}.\n"\
+           "Please review the changes and ensure all information is accurate.\n\n"\
+           "Best regards,\n"\
+           "GreatMindz Team",
+           [admin_email])
 
           messages.success(request, f'Your profile has been updated successfully')
           return redirect('dashboard')
@@ -301,7 +339,9 @@ def update_profile(request):
 def view_profile(request, id):
     reviews = Review.objects.all()
     tutor = Tutor.objects.get(pk = id)
-    return render(request, "view_profile.html", {'tutor':tutor, 'reviews':reviews})
+    first_name_letter = tutor.first_name[0]
+    last_name_letter = tutor.last_name[0]
+    return render(request, "view_profile.html", {'tutor':tutor, 'reviews':reviews, 'first_name_letter':first_name_letter, 'last_name_letter':last_name_letter})
 
 ################
 # End of profile
@@ -311,6 +351,11 @@ def current_applications(request):
     count = GetTutor.objects.filter(applicant = request.user).count()  
     applications = GetTutor.objects.filter(applicant = request.user)  
     return render(request, "current_applications.html", {'applications':applications, 'count':count})
+
+def current_jobs(request):    
+    count = GetTutor.objects.filter(applicant = request.user, jobstatus__status='approved').count()  
+    applications = GetTutor.objects.filter(applicant=request.user, jobstatus__status='approved')  
+    return render(request, "current_jobs.html", {'applications':applications, 'count':count})
 
 ######################################
 # Start of filtering tutors by subject

@@ -1,7 +1,8 @@
 from django.db import models
+import random
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from django.utils.translation import gettext_lazy as _
 
 
 class University(models.Model):
@@ -194,19 +195,36 @@ class PaymentInformation(models.Model):
         return f"{self.tutor.first_name} {self.tutor.last_name}'s Payment Information"
 
 class GetTutor(models.Model):
-    syllabus = models.ForeignKey(Syllabus, on_delete=models.CASCADE)
-    grade = models.ForeignKey(Grade, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    class LengthofLesson(models.TextChoices):
+        HOUR = "h", _("1 Hour")
+        HOUR_AND_30_MINUTES = "hm", _("1 Hour 30 Minutes")
+        TWO_HOURS = "2h", _("2 Hours")
+    class LessonPerWeek(models.TextChoices):
+        ONE = "1", _("1")
+        TWO = "2", _("2")
+        THREE = "3", _("3")
+        FOUR = "4", _("4")
+        FIVE = "5", _("5")
+        SIX = "6", _("6")
+        SEVEN = "7", _("7")
+        EIGHT = "8", _("8")
+        NINE = "9", _("9")
+        TEN = "10", _("10")
+
+    syllabus = models.ManyToManyField(Syllabus, verbose_name="syllabus")
+    grade = models.ManyToManyField(Grade, verbose_name="grades")
+    subject = models.ManyToManyField(Subject, verbose_name="subject")
     first_name = models.CharField(max_length=50)   
     last_name = models.CharField(max_length=50)      
     email = models.EmailField(max_length=50)
     mobile = models.CharField(max_length=12)
     relationship = models.ForeignKey(Relationship, on_delete = models.CASCADE)
+    relationship_full_name = models.CharField(max_length=40, null=True,default='None')
 
     street_address = models.CharField(max_length=100) 
-    suburb = models.CharField(max_length=100, blank=True) 
-    town = models.CharField(max_length=100, blank = True)   
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
+    suburb = models.CharField(max_length=100, blank=True, default='None') 
+    town = models.CharField(max_length=100, blank = True, default='None')   
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, default='None')
      
          
     lesson_mode = models.ForeignKey(LessonMode, on_delete=models.CASCADE)
@@ -215,9 +233,22 @@ class GetTutor(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     pay_rate = models.CharField(max_length=7)
-    job_number = models.CharField(max_length=5, unique=True, null=True)
+    job_id = models.CharField(max_length=5, unique=True, null=True)
+    length_of_lesson = models.CharField(max_length=2, choices=LengthofLesson.choices, default=LengthofLesson.HOUR, null=True, blank=True)
+    lesson_per_week = models.CharField(max_length=2, choices=LessonPerWeek.choices, default=LessonPerWeek.ONE, null=True, blank=True)
     jobstatus = models.ForeignKey(JobStatus, on_delete=models.CASCADE, null=True)    
     applicant = models.ForeignKey(Tutor, on_delete=models.CASCADE, null=True) 
+
+    def save(self, *args, **kwargs):
+        if not self.job_id:
+            while True:
+                random_number = ''.join(random.choices('0123456789', k=5))
+                
+                if not GetTutor.objects.filter(job_id=random_number).exists():
+                    self.job_id = random_number
+                    break
+
+        super(GetTutor, self).save(*args, **kwargs)
         
 
     def __str__(self):
