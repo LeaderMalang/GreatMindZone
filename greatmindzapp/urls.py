@@ -14,7 +14,7 @@ urlpatterns = [
     path('all_tutors/', views.alltutors, name='alltutors'),
     path('login/', views.login_view, name='login'),
 
-    
+    path('confirm-email/<encoded_email>', views.confirmEmail, name='confirmemail'),
     #path('activate/<uidb64>/token>', views.activate, name='activate'),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(), name="reset_password"),

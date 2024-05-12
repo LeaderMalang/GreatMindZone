@@ -16,7 +16,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
-
+from hashids import Hashids
 def send_email(subject, message, recipient_list):
     """
     Function to send email using Gmail SMTP server.
@@ -150,7 +150,14 @@ def getatutor(request):
    # else:
        # messages.error(request, f'Problem sending email to your email. Check if typed correctly')
 
+def confirmEmail(request,encoded_email):
+    if encoded_email=='':
+        return render(request, "404.html")
+    
+    email=hashids.decode(encoded_email)[0]
+    Tutor.objects.filter(email=email).update(is_completed=True)
 
+    return render(request, "application_completed.html")
 def tutorapplication(request):
     context = {}
     if request.method == 'POST':
@@ -159,8 +166,10 @@ def tutorapplication(request):
           instance = form.save()
           name = instance.first_name
           email = instance.email
-
-          send_email("Profile Creation", "Your profile has been created successfully", [email])
+          base_url=request.get_host()
+          email_encoded=hashids.encode(email)
+          confirm_link=base_url+"/confirm-email/"+email_encoded
+          send_email(f"Profile Creation", "Your profile has been created successfully please confirm your email to complete application by clicking this \n <a href='{confirm_link}'>confirm email</a>", [email])
 
           admin_email = 'mosianets@gmail.com'
 
