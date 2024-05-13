@@ -4,7 +4,11 @@
   <div class="container">
     <div>
       <h3>{{ first_name_letter }} {{ last_name_letter }}</h3>
-      <p>{{ tutor.subject_tutored }} tutor in {{ tutor.suburb }}, {{ tutor.town }}</p>
+      <p>
+        {% for subject in tutor.subject_tutored.all %}
+          <span>{{ subject }}</span>
+        {% endfor %}tutor in {{ tutor.suburb }}, {{ tutor.town }}
+      </p>
     </div>
     <div>
       <h5>Bio</h5>

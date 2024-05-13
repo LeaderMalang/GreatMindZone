@@ -125,8 +125,7 @@ class TutorManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, first_name,last_name, mobile_number, subject_tutored, street_address,
-                          suburb, town, bio, profile_pic, password=None, **extra_fields):
+    def create_superuser(self, email, first_name,last_name, mobile_number, subject_tutored, street_address, bio, profile_pic, password=None, **extra_fields):
         user = self.create_user(email=email, first_name=first_name, last_name=last_name, mobile_number=mobile_number, 
                                 subject_tutored=subject_tutored, street_address=street_address, bio=bio, profile_pic=profile_pic, password=password, **extra_fields )
         user.is_admin = True
@@ -172,7 +171,7 @@ class Tutor(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'mobile_number', 'bio', 'subject_tutored', 'street_address','suburb','town', 'profile_pic']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'mobile_number', 'bio', 'subject_tutored', 'street_address', 'profile_pic']
 
     def __str__(self):
         return self.first_name + self.last_name
