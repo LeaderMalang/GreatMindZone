@@ -7,7 +7,7 @@
   <body>
     <div class="container">
       <h1 class="mt-4">Become a Tutor</h1>
-      <form id="becometutor-form" action="" method="post" enctype="multipart/form-data">
+      <form class="w-50" id="becometutor-form" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ tutor_form.first_name.errors }}
         {{ tutor_form.first_name.label_tag }}
@@ -104,15 +104,18 @@
 
         {{ tutor_form.bio.errors }}
         {{ tutor_form.bio.label_tag }}
+
         {{ tutor_form.bio }}
         <span id="bio-error" class="text-danger"></span>
+        <div class="text-danger" id="word-count">0 / 200 words</div>
         <br />
-
-        {{ tutor_form.profile_pic.errors }}
-        {{ tutor_form.profile_pic.label_tag }}
-        {{ tutor_form.profile_pic }}
-        <span id="profile-pic-error" class="text-danger"></span>
-        <br />
+        <div class="mb-4">
+          {{ tutor_form.profile_pic.errors }}
+          {{ tutor_form.profile_pic.label_tag }}
+          {{ tutor_form.profile_pic }}
+          <span id="profile-pic-error" class="text-danger"></span>
+          <br />
+        </div>
 
         {{ tutor_form.matric_certificate.errors }}
         {{ tutor_form.matric_certificate.label_tag }}
@@ -263,12 +266,28 @@
           if ($(this).val() == '1') {
             document.getElementById('qualification-fields').style.display = 'none'
             document.getElementById('degree-fields').style.display = 'block'
-            document.getElementById("id_highest_qualification").value = "None";
+            document.getElementById('id_highest_qualification').value = 'None'
           } else if ($(this).val() == '2') {
             document.getElementById('degree-fields').style.display = 'none'
-            document.getElementById("id_currently_degree").value = "None";
+            document.getElementById('id_currently_degree').value = 'None'
             document.getElementById('qualification-fields').style.display = 'block'
           }
+        })
+      })
+      
+      $(document).ready(function () {
+        const maxWords = 200
+      
+        $('#id_bio').on('input', function () {
+          const words = $(this).val().trim().split(/\s+/).filter(Boolean)
+          const wordCount = words.length
+      
+          if (wordCount > maxWords) {
+            const trimmedWords = words.slice(0, maxWords)
+            $(this).val(trimmedWords.join(' '))
+          }
+      
+          $('#word-count').text(`${Math.min(wordCount, maxWords)} / ${maxWords} words`)
         })
       })
     </script>

@@ -19,7 +19,18 @@
           </thead>
           <tbody>
             <tr class="table-success">
-              <th scope="row">Gr {{ app.grade }}, {{ app.subject }}, {{ app.physical_address }}</th>
+              <th scope="row">
+                Subjects:
+                {% for subject in app.subject.all %}
+                  {{ subject }}
+                {% endfor %}
+                <br />
+                Grades:{% for grade in app.grade.all %}
+                  {{ grade }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                <br />
+                Address: {{ app.street_address }}
+              </th>
               <td>{{ app.created_at }}</td>
               <td>{{ app.pay_rate }}</td>
               <td>{{ app.jobstatus }}</td>

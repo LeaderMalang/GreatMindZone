@@ -12,16 +12,23 @@
 
          <h1 class="text-center mt-3 mb-3">Available Jobs</h1>
          <h4 class="text-center">Total number of jobs: {{number_of_jobs}}</h4> 
-{%if tutor is authenticated%}
+{%  if tutor is authenticated %}
     {% if valid_jobs %}
 
-        {%for job in valid_jobs %}
+        {% for job in valid_jobs %}
            
             <div class="container rounded border border-2 border-primary mb-3">
                 <div>
-                    <h5 class="mt-3">Subject: {{job.name}}</h5>
-                    <h5 class="mt-3">Subject: {{job.subject}}</h5>
-                    <h5>Grade: {{job.grade}}</h5>
+                    <h5 class="mt-3">Subject:
+                    {% for subject in job.subject.all %}
+                    {{ subject }}
+                    {% endfor %}
+                    </h5>
+                    <h5>Grade:
+                    {% for grade in job.grade.all %}
+                    {{ grade }}
+                    {% endfor %}
+                    </h5>
                     <h5>To start: {{job.start}}</h5>
                     <h5>Pay rate: {{job.pay_rate}}</h5>
                     <a class="btn btn-primary mb-3" href="{% url 'apply_job' job.pk %}">Apply for Job</a>
