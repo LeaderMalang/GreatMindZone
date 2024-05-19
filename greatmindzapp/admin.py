@@ -27,12 +27,14 @@ class TutorAdmin(BaseUserAdmin):
 # class GetTutorAdmin(admin.ModelAdmin):
 #     list_display = ('first_name','grade', 'subject','syllabus','mobile','suburb','town', 'lesson_mode', 'created_at','jobstatus',)
 
+class GetTutorAdmin(admin.ModelAdmin):
+    list_display = ('first_name','last_name', 'email','created_at', )
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('fullname','email', 'contactnumber','message',)
 
 
 admin.site.register(Message, MessageAdmin)
-admin.site.register(GetTutor)
+admin.site.register(GetTutor, GetTutorAdmin)
 admin.site.register(LessonMode)
 admin.site.register(LessonStart)
 admin.site.register(Subject)

@@ -122,7 +122,7 @@ def getatutor(request):
             messages.success(request, f'Thank you for reaching out to us. We will get back to you in no time')
             return redirect('getatutor')
         else:
-            messages.error(request)    
+            messages.error(request, 'There was an error with your form submission. Please check your inputs and try again.') 
     else:
         form = GetTutorForm()
         if 'submitted' in request.GET:
@@ -309,8 +309,12 @@ def apply_job(request, pk):
             return HttpResponse("Invalid Form Data")
     else:
         job = GetTutor.objects.get(id=pk) 
-        form = GetTutorForm(instance=job)       
+        form = GetTutorForm(instance=job)  
+        for field in form.fields.values():
+            field.widget.attrs['disabled'] = 'disabled'     
         return render(request, "apply_job.html", {'job': job, 'form': form})
+
+
 ##################
 # Start of profile
 ##################

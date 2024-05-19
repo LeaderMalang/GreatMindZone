@@ -1,5 +1,6 @@
 from django.db import models
 import random
+from django.core.mail import send_mail
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
@@ -99,7 +100,7 @@ class Relationship(models.Model):
 
 
 class TutorManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, mobile_number, subject_tutored, street_address, vehicle, bio, profile_pic, password=None):
+    def create_user(self, email, first_name, last_name, mobile_number, street_address, bio, profile_pic, password=None):
 
         if not email:
             raise ValueError('You must provide email address')
@@ -109,8 +110,6 @@ class TutorManager(BaseUserManager):
             raise ValueError('You must provide last name')        
         if not mobile_number:
             raise ValueError('You must provide mobile number')
-        if not subject_tutored:
-            raise ValueError('You must provide subject tutored')
         if not street_address:
             raise ValueError('You must provide full physical address')
         if not bio:
@@ -118,23 +117,21 @@ class TutorManager(BaseUserManager):
 
         email = self.normalize_email(email)
         user = self.model(email=email, first_name=first_name, last_name=last_name, mobile_number=mobile_number, 
-                          subject_tutored=subject_tutored, profile_pic=profile_pic,
-                          vehicle=vehicle,
-                         street_address=street_address, bio=bio)
+                          street_address=street_address, bio=bio, profile_pic=profile_pic)
         user.set_password(password)
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, first_name,last_name, mobile_number, subject_tutored, street_address, bio, profile_pic, password=None, **extra_fields):
+    def create_superuser(self, email, first_name, last_name, mobile_number, street_address, bio, profile_pic, password=None, **extra_fields):
         user = self.create_user(email=email, first_name=first_name, last_name=last_name, mobile_number=mobile_number, 
-                                subject_tutored=subject_tutored, street_address=street_address, bio=bio, profile_pic=profile_pic, password=password, **extra_fields )
+                                street_address=street_address, bio=bio, profile_pic=profile_pic, password=password, **extra_fields)
         user.is_admin = True
         user.is_superuser = True
         user.is_staff = True
         user.is_active = True
         user.save(using=self._db)
         return user
-
+    
 class Tutor(AbstractBaseUser):
     email = models.EmailField(verbose_name="email address", max_length=50, unique=True)
     first_name = models.CharField(verbose_name="first name", max_length=100)
@@ -153,7 +150,7 @@ class Tutor(AbstractBaseUser):
 
     street_address = models.CharField(max_length=100)
 
-    bio = models.TextField(verbose_name="biography", max_length=500)
+    bio = models.TextField(verbose_name="biography")
     currently_degree = models.CharField(max_length=50, null=True)
     highest_qualification = models.CharField(max_length=50, null=True)
     undergrad_finished = models.ForeignKey(UnderGrad, on_delete=models.CASCADE, null=True)
@@ -171,10 +168,10 @@ class Tutor(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'mobile_number', 'bio', 'subject_tutored', 'street_address', 'profile_pic']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'mobile_number', 'bio', 'street_address', 'profile_pic']
 
     def __str__(self):
-        return self.first_name + self.last_name
+        return f'{self.first_name} {self.last_name}'
     
     def has_perm(self, perm, obj=None):
         return True
@@ -249,10 +246,44 @@ class GetTutor(models.Model):
                     break
 
         super(GetTutor, self).save(*args, **kwargs)
+
+    def match_and_notify_tutors(self):
+        tutors = Tutor.objects.filter(
+            subject_tutored__in=self.subject.all(),
+            grades_tutored__in=self.grade.all(),
+            can_tutor_online=self.lesson_mode
+        ).distinct()
+
+        for tutor in tutors:
+            subject = f"New Tutoring Opportunity for {self.first_name} {self.last_name}"
+            message = f"""
+            Dear {tutor.first_name},
+
+            We have a new tutoring opportunity that matches your profile.
+
+            Student Details:
+            Name: {self.first_name} {self.last_name}
+            Subjects: {', '.join([subject.name for subject in self.subject.all()])}
+            Grades: {', '.join([grade.name for grade in self.grade.all()])}
+            Street Address: {self.street_address}
+            Online: {self.lesson_mode}
+
+            Please log in to your account for more details.
+
+            Best regards,
+            Your Tutoring Platform Team
+            """
+            send_mail(
+                subject,
+                message,
+                'from@example.com',  # Replace with your 'from' email
+                [tutor.email],
+                fail_silently=False,
+            )
         
 
     def __str__(self):
-        return self.first_name + self.last_name
+        return f'{self.first_name} {self.last_name}'
 
 
 class Blog(models.Model):
