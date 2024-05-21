@@ -4,7 +4,8 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
-
+from django.db.models.signals import post_save
+from django.core.validators import FileExtensionValidator
 
 class University(models.Model):
     level = models.CharField(max_length=30)
@@ -79,9 +80,12 @@ class Province(models.Model):
 
 class CanTutorOnline(models.Model):
     online = models.CharField(max_length=20)
-
     def __str__(self):
         return self.online
+class CanTutorInPerson(models.Model):
+    in_person = models.CharField(max_length=20)
+    def __str__(self):
+        return self.in_person
     
 class Message(models.Model):
     fullname = models.CharField(max_length=100)
@@ -142,11 +146,22 @@ class Tutor(AbstractBaseUser):
     mobile_number = models.CharField(verbose_name="mobile number", max_length=15)
     subject_tutored = models.ManyToManyField(Subject, verbose_name="subject tutored", null=True)
     can_tutor_online = models.ForeignKey(CanTutorOnline, on_delete=models.CASCADE, null=True)
+    can_tutor_in_person = models.ForeignKey(CanTutorInPerson, on_delete=models.CASCADE, null=True)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE, null=True)
     grades_tutored = models.ManyToManyField(Grade, verbose_name="grades tutored", null=True)
     syllabus_tutored = models.ManyToManyField(Syllabus, verbose_name="syllabus tutored", null=True)
-    matric_certificate = models.FileField(verbose_name="Matric certificate", upload_to='images/', null=True)
-    id_upload = models.FileField(verbose_name="ID upload", upload_to='images/', null=True)
+    matric_certificate = models.FileField(
+        verbose_name="Matric certificate",
+        upload_to='images/',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpeg', 'jpg'])],
+        null=True
+    )
+    id_upload = models.FileField(
+        verbose_name="ID upload",
+        upload_to='images/',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpeg', 'jpg'])],
+        null=True
+    )
 
     street_address = models.CharField(max_length=100)
 
@@ -169,7 +184,7 @@ class Tutor(AbstractBaseUser):
     USERNAME_FIELD = 'email'
 
     REQUIRED_FIELDS = ['first_name', 'last_name', 'mobile_number', 'bio', 'street_address', 'profile_pic']
-
+            
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
     
@@ -178,6 +193,7 @@ class Tutor(AbstractBaseUser):
     
     def has_module_perms(self, app_label ):
         return True
+
 
 
 class PaymentInformation(models.Model):
@@ -246,44 +262,6 @@ class GetTutor(models.Model):
                     break
 
         super(GetTutor, self).save(*args, **kwargs)
-
-    def match_and_notify_tutors(self):
-        tutors = Tutor.objects.filter(
-            subject_tutored__in=self.subject.all(),
-            grades_tutored__in=self.grade.all(),
-            can_tutor_online=self.lesson_mode
-        ).distinct()
-
-        for tutor in tutors:
-            subject = f"New Tutoring Opportunity for {self.first_name} {self.last_name}"
-            message = f"""
-            Dear {tutor.first_name},
-
-            We have a new tutoring opportunity that matches your profile.
-
-            Student Details:
-            Name: {self.first_name} {self.last_name}
-            Subjects: {', '.join([subject.name for subject in self.subject.all()])}
-            Grades: {', '.join([grade.name for grade in self.grade.all()])}
-            Street Address: {self.street_address}
-            Online: {self.lesson_mode}
-
-            Please log in to your account for more details.
-
-            Best regards,
-            Your Tutoring Platform Team
-            """
-            send_mail(
-                subject,
-                message,
-                'from@example.com',  # Replace with your 'from' email
-                [tutor.email],
-                fail_silently=False,
-            )
-        
-
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
 
 
 class Blog(models.Model):

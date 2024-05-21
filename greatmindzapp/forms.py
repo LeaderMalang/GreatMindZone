@@ -173,7 +173,7 @@ class BecomeTutorForm(ModelForm):
     captcha = ReCaptchaField()
     class Meta:
         model = Tutor
-        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'grades_tutored', 'syllabus_tutored', 'street_address', 'undergrad_finished', 'highest_qualification', 'currently_degree', 'bio', 'profile_pic', 'vehicle', 'password', 'matric_certificate', 'id_upload')
+        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'can_tutor_in_person', 'grades_tutored', 'syllabus_tutored', 'street_address', 'undergrad_finished', 'highest_qualification', 'currently_degree', 'bio', 'profile_pic', 'vehicle', 'password', 'matric_certificate', 'id_upload')
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
@@ -185,6 +185,7 @@ class BecomeTutorForm(ModelForm):
             'mobile_number':'Contact Number',
             'subject_tutored': 'Subject Tutored',
             'can_tutor_online': 'Can you tutor online?',
+            'can_tutor_in_person': 'Can you tutor in person?',
             'grades_tutored': 'Grades Tutored',
             'syllabus_tutored': 'Syllabus Tutored',
             'street_address': 'Physical Address',
@@ -208,6 +209,7 @@ class BecomeTutorForm(ModelForm):
             'mobile_number':forms.TextInput(attrs={'class':'form-control'}),
             'subject_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'can_tutor_online': forms.Select(attrs={'class':'form-control'}),
+            'can_tutor_in_person': forms.Select(attrs={'class':'form-control'}),
             'grades_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'syllabus_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'street_address': forms.TextInput(attrs={'class':'form-control'}),
@@ -228,6 +230,10 @@ class BecomeTutorForm(ModelForm):
         if any(char.isdigit() for char in first_name):
             raise ValidationError("First name should not contain numbers.")
         return first_name
+    def can_tutor_in_person(self):
+        can_tutor_in_person = self.cleaned_data['can_tutor_in_person']
+        if not can_tutor_in_person:
+            raise ValidationError("This cannot be blank.")
 
     def clean_last_name(self):
         last_name = self.cleaned_data['last_name']
@@ -339,7 +345,7 @@ class TutorUpdateForm(ModelForm):
     captcha = ReCaptchaField()
     class Meta:
         model = Tutor
-        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'grades_tutored', 'syllabus_tutored', 'street_address', 'undergrad_finished', 'highest_qualification', 'currently_degree', 'bio', 'profile_pic', 'vehicle','matric_certificate', 'id_upload')
+        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'can_tutor_in_person', 'grades_tutored', 'syllabus_tutored', 'street_address', 'undergrad_finished', 'highest_qualification', 'currently_degree', 'bio', 'profile_pic', 'vehicle','matric_certificate', 'id_upload')
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
@@ -351,6 +357,7 @@ class TutorUpdateForm(ModelForm):
             'mobile_number':'Contact Number',
             'subject_tutored': 'Subject Tutored',
             'can_tutor_online': 'Can you tutor online?',
+            'can_tutor_in_person': 'Can you tutor in person?',
             'grades_tutored': 'Grades Tutored',
             'syllabus_tutored': 'Syllabus Tutored',
             'street_address': 'Physical Address',
@@ -373,6 +380,7 @@ class TutorUpdateForm(ModelForm):
             'mobile_number':forms.TextInput(attrs={'class':'form-control'}),
             'subject_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'can_tutor_online': forms.Select(attrs={'class':'form-control'}),
+            'can_tutor_in_person': forms.Select(attrs={'class':'form-control'}),
             'grades_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'syllabus_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'street_address': forms.TextInput(attrs={'class':'form-control'}),
@@ -400,6 +408,11 @@ class TutorUpdateForm(ModelForm):
         if any(char.isdigit() for char in last_name):
             raise ValidationError("Last name should not contain numbers.")
         return last_name
+
+    def can_tutor_in_person(self):
+        can_tutor_in_person = self.cleaned_data['can_tutor_in_person']
+        if not can_tutor_in_person:
+            raise ValidationError("This cannot be blank.")
 
     def clean_mobile_number(self):
         mobile_number = self.cleaned_data['mobile_number']
