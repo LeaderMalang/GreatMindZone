@@ -16,7 +16,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import EmailMessage
 from .tokens import account_activation_token
-from hashids import Hashids
+import string
+import random
 
 def send_email(subject, message, recipient_list):
     """
@@ -151,14 +152,18 @@ def getatutor(request):
    # else:
        # messages.error(request, f'Problem sending email to your email. Check if typed correctly')
 
-def confirmEmail(request,encoded_email):
-    if encoded_email=='':
+def confirmEmail(request,confirmation_token):
+    if confirmation_token=='':
         return render(request, "404.html")
     
-    email=Hashids.decode(encoded_email)[0]
-    Tutor.objects.filter(email=email).update(is_completed=True)
+    
+    Tutor.objects.filter(confirmation_token=confirmation_token).update(is_completed=True)
 
     return render(request, "application_completed.html")
+
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+
+    return ''.join(random.choice(chars) for _ in range(size))
 def tutorapplication(request):
     context = {}
     if request.method == 'POST':
@@ -167,16 +172,29 @@ def tutorapplication(request):
           instance = form.save()
           name = instance.first_name
           email = instance.email
-        #   base_url=request.get_host()
-        #   email_encoded=Hashids.encode(email)
-        #   confirm_link = base_url + reverse('confirm_email', kwargs={'email_encoded': email_encoded})
+          base_url=request.get_host()
+          token=id_generator(30)
+          Tutor.objects.filter(id=instance.id).update(confirmation_token=token)
+        #   confirm_link = base_url + reverse('confirm_email', kwargs={'confirmation_token': token})
 
-        # # Sending the email
-        #   send_email(
-        #     subject="Profile Creation",
-        #     message=f"Your profile has been created successfully. Please confirm your email to complete the application by clicking this <a href='{confirm_link}'>confirm email</a>.",
-        #     recipients=[email]
-        # )
+        # Sending the email
+          current_site = get_current_site(request)
+          user = instance
+          subject = "Verify Email"
+          message = render_to_string('verify_email.html', {
+                'request': request,
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.id)),
+                'token':token,
+            })
+          email = EmailMessage(
+                subject, message, to=[email]
+            )
+          email.content_subtype = 'html'
+          email.send()
+        
+
 
           admin_email = 'mosianets@gmail.com'
 
