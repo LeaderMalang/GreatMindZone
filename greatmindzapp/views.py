@@ -167,16 +167,16 @@ def tutorapplication(request):
           instance = form.save()
           name = instance.first_name
           email = instance.email
-          base_url=request.get_host()
-          email_encoded=Hashids.encode(email)
-          confirm_link = base_url + reverse('confirm_email', kwargs={'email_encoded': email_encoded})
+        #   base_url=request.get_host()
+        #   email_encoded=Hashids.encode(email)
+        #   confirm_link = base_url + reverse('confirm_email', kwargs={'email_encoded': email_encoded})
 
-        # Sending the email
-          send_email(
-            subject="Profile Creation",
-            message=f"Your profile has been created successfully. Please confirm your email to complete the application by clicking this <a href='{confirm_link}'>confirm email</a>.",
-            recipients=[email]
-        )
+        # # Sending the email
+        #   send_email(
+        #     subject="Profile Creation",
+        #     message=f"Your profile has been created successfully. Please confirm your email to complete the application by clicking this <a href='{confirm_link}'>confirm email</a>.",
+        #     recipients=[email]
+        # )
 
           admin_email = 'mosianets@gmail.com'
 
@@ -185,7 +185,8 @@ def tutorapplication(request):
           "Please review their profile and approve their request.\n\n"\
           "Thank you.\n\n"\
           "Best regards,\n"\
-          "GreatMindz Team", [admin_email])           
+          "GreatMindz Team", [admin_email])   
+          messages.success(request, f'Thank you for registering. Please kindly activate your profile from the email we have sent you')        
           return redirect('home')
         context['tutor_form'] = form
     else:

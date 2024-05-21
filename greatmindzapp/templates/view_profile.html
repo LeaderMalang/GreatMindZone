@@ -1,36 +1,79 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-  <div class="container">
-    <div>
-      <h3>{{ first_name_letter }} {{ last_name_letter }}</h3>
-      <p>
-        {% for subject in tutor.subject_tutored.all %}
-          <span>{{ subject }}</span>
-        {% endfor %}tutor in {{ tutor.suburb }}, {{ tutor.town }}
-      </p>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+        <h2 class="text-primary">{{ tutor.first_name }} {{ last_name_letter }}</h2>
+
+        <p class="text-muted">
+          {% if tutor.can_tutor_online.online == 'Yes' %}
+            <i class="fa fa-check-circle text-success"></i>
+          {% elif tutor.can_tutor_online.online == 'No' %}
+            <i class="fa fa-times-circle text-danger"></i>
+          {% endif %}Can you Tutor online?{% if tutor.can_tutor_in_person.in_person == 'Yes' %}
+            <i class="fa fa-check-circle text-success ms-3"></i>
+          {% elif tutor.can_tutor_in_person.in_person == 'No' %}
+            <i class="fa fa-times-circle text-danger ms-3"></i>
+          {% endif %}Can you Tutor in person?
+        </p>
+      </div>
     </div>
-    <div>
-      <h5>Bio</h5>
-      <p>{{ tutor.bio }}</p>
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3 class="text-info">Bio</h3>
+        <p>{{ tutor.bio }}</p>
+      </div>
     </div>
-    <div>
-      <h5>Education</h5>
-      <p>{{ tutor.bio }}</p>
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3 class="text-info">Subjects</h3>
+        <ul class="list-group">
+          {% for subject in tutor.subject_tutored.all %}
+            <li class="list-group-item">{{ subject }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-    <div>
-      <h5>Subjects</h5>
-      {% for subject in tutor.subject_tutored.all %}
-        <p>{{ subject }}</p>
-      {% endfor %}
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3 class="text-info">Syllabus</h3>
+        <ul class="list-group">
+          {% for syllabus in tutor.syllabus_tutored.all %}
+            <li class="list-group-item">{{ syllabus }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-    <div>
-      <h5>Reviews</h5>
-      {% if reviews %}
-        {% for review in reviews %}
-          <p>{{ review.review }}</p>
-        {% endfor %}
-      {% endif %}
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3 class="text-info">Grades</h3>
+        <ul class="list-group">
+          {% for grades in tutor.grades_tutored.all %}
+            <li class="list-group-item">{{ grades }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3 class="text-info">Reviews</h3>
+        <div class="list-group">
+          {% if reviews %}
+            {% for review in reviews %}
+              <div class="list-group-item">
+                <p>{{ review.content }}</p>
+                <p class="text-muted">- {{ review.author }}</p>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>No reviews yet.</p>
+          {% endif %}
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}

@@ -13,7 +13,7 @@ class TutorAdmin(BaseUserAdmin):
 
     fieldsets = [
         (None, {"fields": ["email", "password"]}),
-        ("Personal info", {"fields": ["first_name","last_name","gender", "sa_citizen", "mobile_number", "subject_tutored","can_tutor_online", "street_address",'bio', 'vehicle', "profile_pic", 'grades_tutored','undergrad_finished','highest_qualification', 'currently_degree', 'syllabus_tutored', 'matric_certificate', 'id_upload' ]}),
+        ("Personal info", {"fields": ["first_name","last_name","gender", "sa_citizen", "mobile_number", "subject_tutored","can_tutor_online", "can_tutor_in_person", "street_address",'bio', 'vehicle', "profile_pic", 'grades_tutored','undergrad_finished','highest_qualification', 'currently_degree', 'syllabus_tutored', 'matric_certificate', 'id_upload' ]}),
         ("Permissions", {"fields": ["is_admin", "is_active", "is_superuser", "is_approved", "is_staff"]}),
     ]
     add_fieldsets = (

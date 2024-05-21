@@ -1,55 +1,111 @@
 {% extends 'base.html' %}
 
+<style>
+  .card {
+    border: none;
+  }
+  
+  .card-title {
+    font-weight: bold;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .rating {
+    text-align: center;
+  }
+  
+  .badge {
+    font-size: 0.9rem;
+  }
+  
+  .badge.bg-secondary {
+    background-color: #6c757d;
+  }
+  
+  .badge.bg-warning {
+    background-color: #ffc107;
+  }
+  
+  .text-muted {
+    font-size: 0.9rem;
+  }
+  
+  .fa {
+    margin-right: 0.5rem;
+  }
+  
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .btn-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+</style>
 {% block content %}
   {% if tutors %}
-    <h1 class="text-center">Our Tutors</h1>
-    <div class="container-fluid" style="background-color: rgb(243 244 246)">
+    <h1 class="text-center my-4">Our Tutors</h1>
+    <div>
       {% for tutor in tutors %}
-        <div class="row w-60">
-          <div class="col bg m-4 w-50">
-            <div class="container" style="border-radius:10px; box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24); background-color: white">
-              <div class="row py-5 justify-content-center">
-                <div class="col-sm ms-5">
-                  <img class="mb-2" src="{{ tutor.profile_pic.url }}" alt="..." style="border-radius:50%; width:30%; height:auto" />
-                  <div>
-                    <h4 class="tutor-name">{{ first_name_letter }} {{ last_name_letter }}</h4>
-                    <p class="tutoring-details">
-                      tutor in {{ tutor.suburb }}, {{ tutor.town }}
-                      {% for subject in subjects.all %}
-                        <span>{{ subject }}</span>
+        <div class="row justify-content-center my-4">
+          <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm" style="border-radius: 10px;">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col-sm-3 text-center">
+                    <div style="background-image: url('{{ tutor.profile_pic.url }}'); background-position: center; background-size: cover; width: 150px; height: 150px; border-radius: 50%;"></div>
+                  </div>
+                  <div class="col-sm-9">
+                    <div style="display: flex; justify-content: space-between; pb-3">
+                      <h5 class="card-title">{{ tutor.first_name }} {{ last_name_letter }}</h5>
+                      <a href="{% url 'view-profile' tutor.id %}" class="btn btn-outline-primary mb-4">View Profile</a>
+                    </div>
+                    <p class="text-muted">
+                      {% if tutor.can_tutor_online.online == 'Yes' %}
+                        <i class="fa fa-check-circle text-success"></i>
+                      {% elif tutor.can_tutor_online.online == 'No' %}
+                        <i class="fa fa-times-circle text-danger"></i>
+                      {% endif %}Can you Tutor online?{% if tutor.can_tutor_in_person.in_person == 'Yes' %}
+                        <i class="fa fa-check-circle text-success ms-3"></i>
+                      {% elif tutor.can_tutor_in_person.in_person == 'No' %}
+                        <i class="fa fa-times-circle text-danger ms-3"></i>
+                      {% endif %}Can you Tutor in person?
+                    </p>
+                    <p class="card-text">{{ tutor.bio }}</p>
+                    <div class="mt-3">
+                      {% for subject in tutor.subject_tutored.all %}
+                        <span class="badge bg-secondary me-1">{{ subject }}</span>
                       {% endfor %}
-                    </p>
-
-                    <a href="{% url 'view-profile' tutor.id %}" class="btn btn-primary mb-4">View Profile</a>
+                    </div>
                   </div>
-                </div>
-                <div class="col-sm">
-                  <div class="face-or-online d-flex flex-column flex-md-row">
-                    <p>
-                      {% if tutor.can_tutor_online == 'yes' %}
-                        Can tutor online assomblief
-                      {% else %}
-                        <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-                          <!-- Draw the first line -->
-                          <line x1="2" y1="2" x2="18" y2="18" style="stroke:black;stroke-width:2" />
-
-                          <!-- Draw the second line -->
-                          <line x1="18" y1="2" x2="2" y2="18" style="stroke:black;stroke-width:2" />
-                        </svg>Cannot tutor online nex nex
-                      {% endif %}
-                    </p>
-                    <p>Can tutor in person</p>
-                  </div>
-                  <h6>Bio</h6>
-                  <p>{{ tutor.bio }}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       {% endfor %}
-    </div><br />
+    </div>
   {% else %}
-    <h1>No tutors found</h1>
+    <h1 class="text-center my-4">No tutors found</h1>
   {% endif %}
 {% endblock %}
