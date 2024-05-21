@@ -195,6 +195,7 @@ def tutorapplication(request):
           email.send()
         
 
+
           admin_email = 'mosianets@gmail.com'
 
           send_email("Tutor Approval Request", f"Hello Admin,\n\n"\
@@ -202,7 +203,8 @@ def tutorapplication(request):
           "Please review their profile and approve their request.\n\n"\
           "Thank you.\n\n"\
           "Best regards,\n"\
-          "GreatMindz Team", [admin_email])           
+          "GreatMindz Team", [admin_email])   
+          messages.success(request, f'Thank you for registering. Please kindly activate your profile from the email we have sent you')        
           return redirect('home')
         context['tutor_form'] = form
     else:
