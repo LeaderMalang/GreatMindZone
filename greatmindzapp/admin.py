@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from . models import Message, GetTutor, Tutor, LessonMode, Grade, Subject, LessonStart, Syllabus,Blog, JobStatus, Gender, Citizen, University, UnderGrad, CanTutorOnline, Review, Province, Relationship, PaymentInformation, Vehicle
+from . models import Message, GetTutor, Tutor, LessonMode, Grade, Subject, LessonStart, Syllabus,Blog, JobStatus, Gender, Citizen, University, UnderGrad, CanTutorOnline, Review, Province, Relationship, PaymentInformation, Vehicle, CanTutorInPerson
 
 
 class TutorAdmin(BaseUserAdmin):
@@ -47,6 +47,7 @@ admin.site.register(University)
 admin.site.register(UnderGrad)
 admin.site.register(Citizen)
 admin.site.register(CanTutorOnline)
+admin.site.register(CanTutorInPerson)
 admin.site.register(Tutor, TutorAdmin)
 admin.site.register(Review)
 admin.site.register(Province)

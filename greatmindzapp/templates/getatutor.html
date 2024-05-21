@@ -98,9 +98,23 @@
     </form>
   </div>
 
+  <style>
+    .select2-container--default .select2-selection--multiple {
+      border: 1px solid #dee2e6;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      margin-bottom: 16px;
+    }
+  </style>
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script>
     $(document).ready(function () {
+      $('#id_syllabus').select2()
+      $('#id_grade').select2()
+      $('#id_subject').select2()
+    
       function validateAndShowError(inputId, errorId, errorMessage, validationRegex) {
         var inputValue = $(inputId).val().trim()
         if (!inputValue) {
@@ -118,7 +132,7 @@
         }
       }
     
-      $('#id_syllabus, #id_grade, #id_subject, #id_email, #id_mobile, #id_relationship, #id_street_address, #id_suburb, #id_town, #id_province, #id_lesson_mode, #id_start, #id_additional_details, #id_relationship_full_name').on('input', function () {
+      $('#id_email, #id_mobile, #id_relationship, #id_street_address, #id_suburb, #id_town, #id_province, #id_lesson_mode, #id_start, #id_additional_details, #id_relationship_full_name').on('input', function () {
         var inputId = '#' + $(this).attr('id')
         var errorId = '#' + $(this).attr('id') + '-error'
         var errorMessage = $(errorId).data('error')
@@ -196,7 +210,5 @@
         }
       })
     })
-
-    
   </script>
 {% endblock %}
