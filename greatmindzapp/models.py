@@ -4,7 +4,6 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
-from django.db.models.signals import post_save
 from django.core.validators import FileExtensionValidator
 
 class University(models.Model):

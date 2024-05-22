@@ -8,6 +8,8 @@ def post_save_tutor(sender, instance, created, **kwargs):
     if instance.is_approved:
           # Import send_email here to avoid circular import
         send_email("Tutor Account Approval", "Your Tutor Account has been approved.", [instance.email])
+    elif instance.is_active:
+        send_email("Tutor Account Activation", "Your Tutor Account has been activated.", [instance.email])
 
 
 @receiver(post_save, sender=GetTutor)
