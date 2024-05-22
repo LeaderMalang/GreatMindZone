@@ -37,7 +37,7 @@ urlpatterns = [
     path('privacy-policy/', views.privacy, name="privacy_policy"),
     path('client-terms-and-/', views.client_terms, name="client_terms"),
     path('tutor-terms-and-conditions/', views.tutor_terms, name="tutor_terms"),
-    path('maths-tutors/', views.maths_tutors, name="maths_tutors"),
+    path('tutors-by-subject/<int:id>', views.tutors_by_subject, name="tutors_by_subject"),
     path('life-sciences-tutors/', views.life_sciences_tutors, name="life_sciences_tutors"),
     path('payment/', views.payment_info, name='payment_info'),
 
