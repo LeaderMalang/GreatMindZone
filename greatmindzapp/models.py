@@ -178,7 +178,7 @@ class Tutor(AbstractBaseUser):
     is_approved = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)        
-
+    confirmation_token = models.CharField(max_length=50,null=True,blank=True)
     objects = TutorManager()
 
     USERNAME_FIELD = 'email'
