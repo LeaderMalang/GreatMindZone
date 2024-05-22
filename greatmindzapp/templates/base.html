@@ -179,53 +179,28 @@
             <div class="col-lg-3 col-md-6 footer-links">
               <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Tutors by Popular Subjects</h5>
               <ul style="list-style: none; padding-left: 0;">
-                <li class="mb-2">
-                  <a href="{% url 'maths_tutors' %}" style="text-decoration: none; color:white">Mathematics</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'about' %}" style="text-decoration: none; color:white">Physical Sciences</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'contact' %}" style="text-decoration: none;color:white">Accounting</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'blog' %}" style="text-decoration: none;color:white">English</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'life_sciences_tutors' %}" style="text-decoration: none;color:white">Life Sciences</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'becomeatutor' %}" style="text-decoration: none;color:white">Chemistry</a>
-                </li>
-                <li>
-                  <a href="{% url 'privacy_policy' %}" style="text-decoration: none;color:white">Afrikaans</a>
-                </li>
+                {% for subject in subjects %}
+                  
+                  <li class="mb-2">
+                    <a href="{% url 'tutors_by_subject' id=subject.id %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
+                  </li>
+                  {% endfor %}  
+
+                  
+                
+                
               </ul>
             </div>
             <div class="col-lg-3 col-md-6 footer-links">
               <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Online Tutors by Popular Subjects</h5>
               <ul style="list-style: none; padding-left: 0;">
+                
+                {% for subject in subjects reversed %}
                 <li class="mb-2">
-                  <a href="{% url 'home' %}" style="text-decoration: none; color:white">Mathematics</a>
+                  <a href="{% url 'tutors_by_subject' id=subject.id %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
                 </li>
-                <li class="mb-2">
-                  <a href="{% url 'about' %}" style="text-decoration: none; color:white">Physical Sciences</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'contact' %}" style="text-decoration: none;color:white">Accounting</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'blog' %}" style="text-decoration: none;color:white">English</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'terms' %}" style="text-decoration: none;color:white">Life Sciences</a>
-                </li>
-                <li class="mb-2">
-                  <a href="{% url 'becomeatutor' %}" style="text-decoration: none;color:white">Chemistry</a>
-                </li>
-                <li>
-                  <a href="{% url 'privacy_policy' %}" style="text-decoration: none;color:white">Afrikaans</a>
-                </li>
+                {% endfor %} 
+                
               </ul>
             </div>
           </div>

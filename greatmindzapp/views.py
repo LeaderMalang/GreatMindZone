@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import MessageForm, GetTutorForm, BecomeTutorForm, LoginForm, TutorUpdateForm, PaymentInformationForm
-from . models import Tutor, GetTutor, Blog, JobStatus, Review, PaymentInformation
+from . models import Tutor, GetTutor, Blog, JobStatus, Review, PaymentInformation,Subject
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
@@ -42,6 +42,7 @@ def send_email(subject, message, recipient_list):
 
 def home(request):
     # maths_tutors = Tutor.objects.filter(subject_tutored = "Mathematics")
+    
     return render(request, "home.html")
 
 def becomeatutor(request):
@@ -378,7 +379,7 @@ def update_profile(request):
 def view_profile(request, id):
     reviews = Review.objects.all()
     tutor = Tutor.objects.get(pk = id)
-    first_name_letter = tutor.first_name[0]
+    first_name_letter = tutor.first_name
     last_name_letter = tutor.last_name[0]
     return render(request, "view_profile.html", {'tutor':tutor, 'reviews':reviews, 'first_name_letter':first_name_letter, 'last_name_letter':last_name_letter})
 
@@ -400,8 +401,8 @@ def current_jobs(request):
 # Start of filtering tutors by subject
 ######################################
 
-def maths_tutors(request):
-    maths_tutors = Tutor.objects.filter(subject_tutored = "Mathematics")
+def tutors_by_subject(request,id):
+    maths_tutors = Tutor.objects.filter(subject_tutored = id)
     return render(request, "subject_filtering/maths_tutors.html", {'maths_tutors':maths_tutors})
 
 def life_sciences_tutors(request):
