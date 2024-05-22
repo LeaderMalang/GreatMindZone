@@ -28,7 +28,11 @@ class TutorAdmin(BaseUserAdmin):
 #     list_display = ('first_name','grade', 'subject','syllabus','mobile','suburb','town', 'lesson_mode', 'created_at','jobstatus',)
 
 class GetTutorAdmin(admin.ModelAdmin):
-    list_display = ('first_name','last_name', 'email','created_at', )
+    list_display = ('first_name','last_name', 'get_subject','get_grade','created_at', )
+    def get_subject(self, obj):
+        return "\n".join([p.subject_tutored for p in obj.subject.all()])
+    def get_grade(self, obj):
+        return "\n".join([p.learner_grade for p in obj.grade.all()])
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('fullname','email', 'contactnumber','message',)
 

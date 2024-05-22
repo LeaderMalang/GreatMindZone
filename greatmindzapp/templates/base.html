@@ -179,7 +179,7 @@
             <div class="col-lg-3 col-md-6 footer-links">
               <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Tutors by Popular Subjects</h5>
               <ul style="list-style: none; padding-left: 0;">
-                {% for subject in subjects %}
+                {% for subject in tutor_by_subjects %}
                   
                   <li class="mb-2">
                     <a href="{% url 'tutors_by_subject' id=subject.id %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
@@ -195,7 +195,7 @@
               <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Online Tutors by Popular Subjects</h5>
               <ul style="list-style: none; padding-left: 0;">
                 
-                {% for subject in subjects reversed %}
+                {% for subject in tutor_by_subjects reversed %}
                 <li class="mb-2">
                   <a href="{% url 'tutors_by_subject' id=subject.id %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
                 </li>
