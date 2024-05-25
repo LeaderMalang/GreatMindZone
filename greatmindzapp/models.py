@@ -163,12 +163,16 @@ class Tutor(AbstractBaseUser):
     )
 
     street_address = models.CharField(max_length=100)
-
+    suburb = models.CharField(max_length=100, blank=True, null=True,default='') 
+    town = models.CharField(max_length=100, blank = True, null=True,default='')   
+    province = models.ForeignKey(Province, on_delete=models.CASCADE,blank=True, null=True)
     bio = models.TextField(verbose_name="biography")
     currently_degree = models.CharField(max_length=50, null=True)
     highest_qualification = models.CharField(max_length=50, null=True)
     undergrad_finished = models.ForeignKey(UnderGrad, on_delete=models.CASCADE, null=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/')
+    profile_pic = models.ImageField(null=True, blank=True, upload_to='images/'
+    ,validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])],
+        )
     date_joined = models.DateField(auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_staff = models.BooleanField(default=False)

@@ -29,6 +29,11 @@
                     {{ grade }}
                     {% endfor %}
                     </h5>
+                    <h5>Length of Lession:
+                        
+                        {{ job.length_of_lesson }}
+                        
+                    </h5>
                     <h5>To start: {{job.start}}</h5>
                     <h5>Pay rate: {{job.pay_rate}}</h5>
                     <a class="btn btn-primary mb-3" href="{% url 'apply_job' job.pk %}">Apply for Job</a>

@@ -401,8 +401,12 @@ def current_jobs(request):
 # Start of filtering tutors by subject
 ######################################
 
-def tutors_by_subject(request,id):
-    maths_tutors = Tutor.objects.filter(subject_tutored = id)
+def tutors_by_subject(request,id,is_online='No'):
+    maths_tutors=None
+    if is_online=='Yes':
+        maths_tutors = Tutor.objects.filter(subject_tutored = id,can_tutor_online=1)
+    else:
+        maths_tutors = Tutor.objects.filter(subject_tutored = id)
     return render(request, "subject_filtering/maths_tutors.html", {'maths_tutors':maths_tutors})
 
 def life_sciences_tutors(request):

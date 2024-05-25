@@ -173,7 +173,7 @@ class BecomeTutorForm(ModelForm):
     captcha = ReCaptchaField()
     class Meta:
         model = Tutor
-        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'can_tutor_in_person', 'grades_tutored', 'syllabus_tutored', 'street_address', 'undergrad_finished', 'highest_qualification', 'currently_degree', 'bio', 'profile_pic', 'vehicle', 'password', 'matric_certificate', 'id_upload')
+        fields = ('first_name', 'last_name', 'email', 'gender', 'age', 'sa_citizen', 'mobile_number', 'subject_tutored', 'can_tutor_online', 'can_tutor_in_person', 'grades_tutored', 'syllabus_tutored', 'street_address','suburb','town','province', 'undergrad_finished', 'highest_qualification', 'currently_degree', 'bio', 'profile_pic', 'vehicle', 'password', 'matric_certificate', 'id_upload')
         labels = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
@@ -189,6 +189,9 @@ class BecomeTutorForm(ModelForm):
             'grades_tutored': 'Grades Tutored',
             'syllabus_tutored': 'Syllabus Tutored',
             'street_address': 'Physical Address',
+            'suburb':"Suburb",
+            'town':"City/Town",
+            'province':"Province",
             'undergrad_finished': 'Are you still an undergraduate student?',
             'highest_qualification': 'What is your highest qualification?',
             'currently_degree': 'Which degree are you currently pursuing?',
@@ -213,7 +216,11 @@ class BecomeTutorForm(ModelForm):
             'grades_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'syllabus_tutored': forms.SelectMultiple(attrs={'class':'form-control'}),
             'street_address': forms.TextInput(attrs={'class':'form-control'}),
-            'bio': forms.Textarea(attrs={'class':'form-control'}),  
+            'suburb': forms.TextInput(attrs={'class':'form-control'}),
+            'town': forms.TextInput(attrs={'class':'form-control'}),
+            'province': forms.Select(attrs={'class':'form-control'}),
+            
+            'bio': forms.Textarea(attrs={'class':'form-control','maxlength':200,'minlength':50}),  
             'undergrad_finished':forms.Select(attrs={'class':'form-control'}),     
             'highest_qualification': forms.TextInput(attrs={'class':'form-control'}),  
             'currently_degree': forms.TextInput(attrs={'class':'form-control'}),  
