@@ -31,6 +31,9 @@ def match_and_notify_tutors(sender, instance, created, **kwargs):
             Job Details:
             Job ID: {instance.job_id}
             Street Address: {instance.street_address}
+            Street Address: {instance.suburb}
+            Street Address: {instance.town}
+            Street Address: {instance.province.province}
             Online: {instance.lesson_mode}
             Subjects: {', '.join([subject.subject_tutored for subject in instance.subject.all()])}
             Grades: {', '.join([grade.learner_grade for grade in instance.grade.all()])}

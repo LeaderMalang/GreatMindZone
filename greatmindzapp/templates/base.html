@@ -182,7 +182,7 @@
                 {% for subject in tutor_by_subjects %}
                   
                   <li class="mb-2">
-                    <a href="{% url 'tutors_by_subject' id=subject.id %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
+                    <a href="{% url 'tutors_by_subject' id=subject.id is_online='No' %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
                   </li>
                   {% endfor %}  
 
@@ -197,7 +197,7 @@
                 
                 {% for subject in tutor_by_subjects reversed %}
                 <li class="mb-2">
-                  <a href="{% url 'tutors_by_subject' id=subject.id %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
+                  <a href="{% url 'tutors_by_subject' id=subject.id is_online='Yes' %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
                 </li>
                 {% endfor %} 
                 

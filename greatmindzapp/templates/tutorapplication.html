@@ -95,7 +95,21 @@
         {{ tutor_form.street_address }}
         <span id="street-address-error" class="text-danger"></span>
         <br />
-
+        {{ tutor_form.suburb.errors }}
+        {{ tutor_form.suburb.label_tag }}
+        {{ tutor_form.suburb }}
+        <span id="suburb-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.town.errors }}
+        {{ tutor_form.town.label_tag }}
+        {{ tutor_form.town }}
+        <span id="town-error" class="text-danger"></span>
+        <br />
+        {{ tutor_form.province.errors }}
+        {{ tutor_form.province.label_tag }}
+        {{ tutor_form.province }}
+        <span id="province-error" class="text-danger"></span>
+        <br />
         {{ tutor_form.undergrad_finished.errors }}
         {{ tutor_form.undergrad_finished.label_tag }}
         {{ tutor_form.undergrad_finished }}
@@ -123,13 +137,15 @@
 
         {{ tutor_form.bio }}
         <span id="bio-error" class="text-danger"></span>
-        <div class="text-danger" id="word-count">0 / 200 words</div>
+        <!-- <div class="text-danger" id="word-count">0 / 200 words</div> -->
+        <div class="text-success">50 words and maximum 200 words.</div>
         <br />
         <div class="mb-4">
           {{ tutor_form.profile_pic.errors }}
           {{ tutor_form.profile_pic.label_tag }}
           {{ tutor_form.profile_pic }}
           <span id="profile-pic-error" class="text-danger"></span>
+          
           <br />
         </div>
 
@@ -137,6 +153,7 @@
         {{ tutor_form.matric_certificate.label_tag }}
         {{ tutor_form.matric_certificate }}
         <span id="matric-certificate-error" class="text-danger"></span>
+       
         <br />
 
         {{ tutor_form.id_upload.errors }}
@@ -294,12 +311,13 @@
       
       $(document).ready(function () {
         const maxWords = 200
+        const minWords = 50
       
         $('#id_bio').on('input', function () {
           const words = $(this).val().trim().split(/\s+/).filter(Boolean)
           const wordCount = words.length
       
-          if (wordCount > maxWords) {
+          if (wordCount > maxWords && wordCount < minWords) {
             const trimmedWords = words.slice(0, maxWords)
             $(this).val(trimmedWords.join(' '))
           }

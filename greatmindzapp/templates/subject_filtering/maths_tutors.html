@@ -1,5 +1,5 @@
 {% extends "base.html"%}
-
+{% load static %}
 {% block content%}
     {% if maths_tutors %}
      
@@ -8,7 +8,13 @@
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
               <div class="col-md-4">
+               
+              {%if tutor.profile_pic %}
                 <img src="{{ tutor.profile_pic.url }}" class="img-fluid rounded-start" alt="...">
+              {% else %}
+           
+              <img src="{% static '../images/teaching.png' %}" class="img-fluid rounded-start" alt="...">
+              {% endif %}
               </div>
               <div class="col-md-8">
                 <div class="card-body">
