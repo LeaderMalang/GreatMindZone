@@ -77,7 +77,6 @@
   </head>
 
   <body>
-
     <nav class="navbar navbar-expand-lg bg-light mb-5 d-flex align-items-center" style="height:100px" data-bs-theme="light">
       <div class="container-fluid">
         <a class="navbarr-brand ms-0 ms-md-5" href="{% url 'home' %}"><img style="width:170px;border-radius: 5px;" src="{% static 'images/Logo.jpg' %}" /></a>
@@ -117,12 +116,19 @@
     </nav>
     {% if messages %}
       {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible">
+        <div class="alert alert-{{ message.tags }} alert-dismissible" id="alertMessage">
           {{ message }}
-          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <a href="#" class="close" data-dismiss="alert" aria-label="close" onclick="closeAlert()">&times;</a>
         </div>
       {% endfor %}
     {% endif %}
+
+    <script>
+      function closeAlert() {
+        var alertDiv = document.getElementById('alertMessage')
+        alertDiv.style.display = 'none'
+      }
+    </script>
 
     {% block content %}
 
@@ -180,27 +186,20 @@
               <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Tutors by Popular Subjects</h5>
               <ul style="list-style: none; padding-left: 0;">
                 {% for subject in tutor_by_subjects %}
-                  
                   <li class="mb-2">
-                    <a href="{% url 'tutors_by_subject' id=subject.id is_online='No' %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
+                    <a href="{% url 'tutors_by_subject' id=subject.id is_online='No' %}" style="text-decoration: none; color:white">{{ subject.subject_tutored }}</a>
                   </li>
-                  {% endfor %}  
-
-                  
-                
-                
+                {% endfor %}
               </ul>
             </div>
             <div class="col-lg-3 col-md-6 footer-links">
               <h5 class="" style="margin-top:50px; font-size: 18px; padding-bottom: 10px;">Online Tutors by Popular Subjects</h5>
               <ul style="list-style: none; padding-left: 0;">
-                
                 {% for subject in tutor_by_subjects reversed %}
-                <li class="mb-2">
-                  <a href="{% url 'tutors_by_subject' id=subject.id is_online='Yes' %}" style="text-decoration: none; color:white">{{subject.subject_tutored}}</a>
-                </li>
-                {% endfor %} 
-                
+                  <li class="mb-2">
+                    <a href="{% url 'tutors_by_subject' id=subject.id is_online='Yes' %}" style="text-decoration: none; color:white">{{ subject.subject_tutored }}</a>
+                  </li>
+                {% endfor %}
               </ul>
             </div>
           </div>

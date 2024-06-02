@@ -55,8 +55,13 @@
                         <h6>Email Address</h6>
                         <h6 class="profile-line">{{user.email}}</h6>
                         <h6>Subject Tutored</h6>
-                        <h6 class="profile-line"> {{user.subject_tutored}}</h6>
-                        <h6 class="profile-line">Identity Number: {{user.id_no}}</h6>
+                        
+                        <h6 class="profile-line">
+                            {% for subject in user.subject_tutored.all %}
+                                <span>{{ subject }}</span>{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </h6>
+                        
                         <h6 class="profile-line">Mobile Number: {{user.mobile_number}}</h6>
                         <h6 class="profile-line">Physical Address: {{user.street_address}}, {{user.suburb}}</h6>
                         <h6 class="profile-line">Biography: {{user.bio}}</h6>                     

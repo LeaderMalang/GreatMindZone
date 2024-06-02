@@ -320,7 +320,7 @@ def tutor_terms(request):
 
 def privacy(request):      
     return render(request, "privacy_policy.html")
-
+from django import forms
 def apply_job(request, pk):
     if request.method == 'POST':
         job = GetTutor.objects.get(id=pk)
@@ -337,8 +337,14 @@ def apply_job(request, pk):
     else:
         job = GetTutor.objects.get(id=pk) 
         form = GetTutorForm(instance=job)  
+
+        fields_to_hide = ['email', 'mobile', 'street_address', 'last_name']
+        for field_name in fields_to_hide:
+            if field_name in form.fields:
+                form.fields[field_name].widget = forms.HiddenInput()
+        # Disabling fields for display purposes using CSS class
         for field in form.fields.values():
-            field.widget.attrs['disabled'] = 'disabled'     
+            field.widget.attrs['class'] = 'disabled'
         return render(request, "apply_job.html", {'job': job, 'form': form})
 
 
